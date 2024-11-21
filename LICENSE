@@ -1,24 +1,24 @@
-# Custom License Agreement
+Custom License Agreement
 
-**Copyright (c) 2024 Sambataro Salvatore Alfio**  
+Copyright (c) 2024 Sambataro Salvatore Alfio  
 All rights reserved.
 
 ---
 
-### 1. **Grant of License**
+1. Grant of License
 This software is provided for demonstration purposes to showcase the functionality of the HiScan fingerprint scanner and its associated SDK.  
-Use, copy, modify, distribute, or integrate this software is only permitted **with explicit authorization** from the author.
+Use, copy, modify, distribute, or integrate this software is only permitted with explicit authorization from the author.
 
 ---
 
-### 2. **Restrictions**
-- **Proprietary SDK**: This software uses the proprietary HiScan SDK by Biometrika, which is **not included** in this distribution. To obtain the SDK, you must contact **Biometrika** ([www.biometrika.it](https://www.biometrika.it)) or the author of this project.
-- **Prohibited Actions**: You may not:
+2. Restrictions
+- Proprietary SDK: This software uses the proprietary HiScan SDK by Biometrika, which is not included in this distribution. To obtain the SDK, you must contact Biometrika or the author of this project.
+- Prohibited Actions: You may not:
   - Redistribute this software in any form without the author's explicit permission.
   - Use this software for commercial purposes without prior approval.
   - Remove or alter any copyright or attribution notices.
 
 ---
 
-### 3. **Disclaimer**
+3. Disclaimer
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES, OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT, OR OTHERWISE, ARISING FROM, OUT OF, OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
