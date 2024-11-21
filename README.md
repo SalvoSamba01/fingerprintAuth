@@ -50,5 +50,5 @@ This software includes references to the HiScan SDK, which is proprietary softwa
 
 For questions or inquiries, please contact:
 
-- **Biometrika**: https://www.biometrika.it/
+- **Biometrika**: [biometrika.it](https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&cad=rja&uact=8&ved=2ahUKEwjtmdC3oe2JAxWhzAIHHQk9FBQQFnoECB4QAQ&url=http%3A%2F%2Fwww.biometrika.it%2F&usg=AOvVaw1F1YUFyRKQ5xXoWZCfOonw&opi=89978449)
 - **Repository Owner**
