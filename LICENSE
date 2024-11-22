@@ -18,6 +18,10 @@ Use, copy, modify, distribute, or integrate this software is only permitted with
   - Use this software for commercial purposes without prior approval.
   - Remove or alter any copyright or attribution notices.
 
+The FxISO SDK libraries are owned by UMPI, which allows Users to use, copy, share and create anything derived from them;
+The libraries work exclusively with UMPI scanners and the fingerprint images captured by them.
+It is forbidden to: reverse engineer, decompile, translate, disassemble or otherwise attempt to extract part or all of the source code of the libraries.
+
 ---
 
 3. Disclaimer
