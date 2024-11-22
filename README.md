@@ -41,6 +41,10 @@ This repository contains a demo application showcasing the use of the **HiScan**
 
 The HiScan SDK is **not publicly available**. To obtain access, you must contact **UMPI** or the repository owner. Redistribution of the SDK is strictly prohibited, and this repository does not include the SDK files.
 
+**The FxISO SDK libraries are owned by UMPI, which allows Users to use, copy, share and create anything derived from them;
+The libraries work exclusively with UMPI scanners and the fingerprint images captured by them.
+It is forbidden to: reverse engineer, decompile, translate, disassemble or otherwise attempt to extract part or all of the source code of the libraries.**
+
 ## License
 
 This software includes references to the HiScan SDK, which is proprietary software owned by UMPI. Access to the SDK must be requested directly from UMPI, and this repository does not include the SDK. The use of this application is restricted to those who have obtained proper licensing for the SDK.
