@@ -1,0 +1,7 @@
+Le librerie FxISO SDK sono di proprietà di UMPI che concede agli Utenti di usarle, copiarle, condividerle e creare una qualsiasi cosa derivata da esse;
+Le librerie lavorano esclusivamente con gli scanner UMPI e con le immagini di impronte da essi catturate.
+E' fatto divieto di: decodificare, decompilare, tradurre, disassemblare o tentare in altro modo di estrarre parte o tutto il codice sorgente delle librerie.
+
+The FxISO SDK libraries are owned by UMPI, which allows Users to use, copy, share and create anything derived from them;
+The libraries work exclusively with UMPI scanners and the fingerprint images captured by them.
+It is forbidden to: reverse engineer, decompile, translate, disassemble or otherwise attempt to extract part or all of the source code of the libraries.
