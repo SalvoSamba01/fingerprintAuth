@@ -1,6 +1,6 @@
 Custom License Agreement
 
-Copyright (c) 2024 Sambataro Salvatore Alfio  
+Copyright (c) 2024 Sambataro Salvatore Alfio, UMPI
 All rights reserved.
 
 ---
@@ -12,7 +12,7 @@ Use, copy, modify, distribute, or integrate this software is only permitted with
 ---
 
 2. Restrictions
-- Proprietary SDK: This software uses the proprietary HiScan SDK by Biometrika, which is not included in this distribution. To obtain the SDK, you must contact Biometrika or the author of this project.
+- Proprietary SDK: This software uses the proprietary HiScan SDK by UMPI, which is not included in this distribution. To obtain the SDK, you must contact UMPI.
 - Prohibited Actions: You may not:
   - Redistribute this software in any form without the author's explicit permission.
   - Use this software for commercial purposes without prior approval.
