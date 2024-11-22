@@ -1,6 +1,6 @@
 # fingerprintAuth
 
-This repository contains a demo application showcasing the use of the **HiScan** fingerprint scanner SDK by Biometrika. The application demonstrates key functionalities such as fingerprint registration and identification using the HiScan device, all implemented within a user-friendly graphical interface.
+This repository contains a demo application showcasing the use of the **HiScan** fingerprint scanner SDK by UMPI. The application demonstrates key functionalities such as fingerprint registration and identification using the HiScan device, all implemented within a user-friendly graphical interface.
 
 ## Features
 
@@ -10,7 +10,7 @@ This repository contains a demo application showcasing the use of the **HiScan**
 
 ## Prerequisites
 
-- A working **HiScan** fingerprint scanner by Biometrika.
+- A working **HiScan** fingerprint scanner by UMPI.
 - The **HiScan SDK** (not included in this repository; see disclaimer below).
 - Visual Studio with support for Windows Forms development.
 
@@ -25,7 +25,7 @@ This repository contains a demo application showcasing the use of the **HiScan**
 2. Open the project in **Visual Studio**.
 
 3. Add the HiScan SDK dependencies:
-   - Download the SDK by contacting Biometrika (see disclaimer below).
+   - Download the SDK by contacting UMPI (see disclaimer below).
 
 4. Build and run the application
 
@@ -39,16 +39,16 @@ This repository contains a demo application showcasing the use of the **HiScan**
 
 ## Disclaimer
 
-The HiScan SDK is **not publicly available**. To obtain access, you must contact **Biometrika** or the repository owner. Redistribution of the SDK is strictly prohibited, and this repository does not include the SDK files.
+The HiScan SDK is **not publicly available**. To obtain access, you must contact **UMPI** or the repository owner. Redistribution of the SDK is strictly prohibited, and this repository does not include the SDK files.
 
 ## License
 
-This software includes references to the HiScan SDK, which is proprietary software owned by Biometrika. Access to the SDK must be requested directly from Biometrika, and this repository does not include the SDK. The use of this application is restricted to those who have obtained proper licensing for the SDK.
+This software includes references to the HiScan SDK, which is proprietary software owned by UMPI. Access to the SDK must be requested directly from UMPI, and this repository does not include the SDK. The use of this application is restricted to those who have obtained proper licensing for the SDK.
 
 
 ## Contact
 
 For questions or inquiries, please contact:
 
-- **Biometrika**: [biometrika.it](https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&cad=rja&uact=8&ved=2ahUKEwjtmdC3oe2JAxWhzAIHHQk9FBQQFnoECB4QAQ&url=http%3A%2F%2Fwww.biometrika.it%2F&usg=AOvVaw1F1YUFyRKQ5xXoWZCfOonw&opi=89978449)
+- **UMPI**: [website](https://www.umpi.it/biometrika/)
 - **Repository Owner**
