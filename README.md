@@ -1,6 +1,6 @@
 # fingerprintAuth
 
-This repository contains a demo application showcasing the use of the **HiScan** fingerprint scanner SDK by UMPI. The application demonstrates key functionalities such as fingerprint registration and identification using the HiScan device, all implemented within a user-friendly graphical interface.
+This repository contains a demo application showcasing the use of the **HiScan** fingerprint scanner SDK v.2.7 by UMPI. The application demonstrates key functionalities such as fingerprint registration and identification using the HiScan device, all implemented within a user-friendly graphical interface.
 
 ## Features
 
@@ -11,7 +11,7 @@ This repository contains a demo application showcasing the use of the **HiScan**
 ## Prerequisites
 
 - A working **HiScan** fingerprint scanner by UMPI.
-- The **HiScan SDK** (not included in this repository; see disclaimer below).
+- The **HiScan SDK v.2.7** (not included in this repository; see disclaimer below).
 - Visual Studio with support for Windows Forms development.
 
 ## Installation
@@ -47,7 +47,7 @@ It is forbidden to: reverse engineer, decompile, translate, disassemble or other
 
 ## License
 
-This software includes references to the HiScan SDK, which is proprietary software owned by UMPI. Access to the SDK must be requested directly from UMPI, and this repository does not include the SDK. The use of this application is restricted to those who have obtained proper licensing for the SDK.
+This software includes references to the HiScan SDK, which is proprietary software owned by UMPI. Access to the SDK must be requested directly from UMPI. The use of this application is restricted to those who have obtained proper licensing for the SDK.
 
 
 ## Contact
