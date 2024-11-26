@@ -1,3 +1,17 @@
 *.ist
 *.tif
 *.csv
+*.aps
+*.exe
+*.idb
+*.ipch
+*.lastbuildstate
+*.log
+*.manifest
+*.obj
+*.pch
+*.pdb
+*.res
+*.sdf
+*.suo
+*.tlog
