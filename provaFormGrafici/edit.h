@@ -173,6 +173,10 @@ namespace provaFormGrafici {
 			return;
 		}
 
+		if (err == 16) {
+			error->Text = "Operation aborted";
+			return;
+		}
 		else {
 			error->Text = "User not found";
 			return;

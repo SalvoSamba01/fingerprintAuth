@@ -150,6 +150,9 @@ namespace provaFormGrafici {
 							case 0:
 								strcpy(errorType, "Login Successful");
 								break;
+							case 16:
+								strcpy(errorType, "Operation aborted");
+								break;
 							case 112:
 								strcpy(errorType, "Initialization Failure");
 								break;
@@ -202,7 +205,7 @@ namespace provaFormGrafici {
 								strcpy(errorType, "Unknown error");
 								break;
 							}
-							if (err == 0 || err == -1)
+							if (err == 0 || err == -1 || err==16)
 								this->message->Text = gcnew String(errorType);
 							else if (err == 404)
 								this->message->Text = "Error: " + gcnew String(errorType);

@@ -224,7 +224,11 @@ namespace provaFormGrafici {
 		if (err == -1) {
 			error->Text = "User already enrolled";
 			return;
+		}
 
+		if (err == 16) {
+			error->Text = "Operation aborted";
+			return;
 		}
 
 		this->Close();

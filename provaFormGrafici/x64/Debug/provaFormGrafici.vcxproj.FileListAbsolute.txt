@@ -42,3 +42,10 @@ C:\Users\smbsv\Desktop\FUNZIONANTE provaFormGrafici\provaFormGrafici\x64\Debug\p
 C:\Users\smbsv\Desktop\FUNZIONANTE provaFormGrafici\provaFormGrafici\x64\Debug\provaFormGrafici.signup.resources
 C:\Users\smbsv\Desktop\FUNZIONANTE provaFormGrafici\provaFormGrafici\x64\Debug\provaFormGrafici.vcxproj.GenerateResource.cache
 C:\Users\smbsv\Desktop\Work\provaFormGrafici\x64\Debug\provaFormGrafici.edit.resources
+C:\Users\smbsv\Desktop\FUNZIONANTE\provaFormGrafici\x64\Debug\provaFormGrafici.vcxproj.AssemblyReference.cache
+C:\Users\smbsv\Desktop\FUNZIONANTE\provaFormGrafici\x64\Debug\provaFormGrafici.about.resources
+C:\Users\smbsv\Desktop\FUNZIONANTE\provaFormGrafici\x64\Debug\provaFormGrafici.edit.resources
+C:\Users\smbsv\Desktop\FUNZIONANTE\provaFormGrafici\x64\Debug\provaFormGrafici.Home.resources
+C:\Users\smbsv\Desktop\FUNZIONANTE\provaFormGrafici\x64\Debug\provaFormGrafici.login.resources
+C:\Users\smbsv\Desktop\FUNZIONANTE\provaFormGrafici\x64\Debug\provaFormGrafici.signup.resources
+C:\Users\smbsv\Desktop\FUNZIONANTE\provaFormGrafici\x64\Debug\provaFormGrafici.vcxproj.GenerateResource.cache

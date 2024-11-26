@@ -96,7 +96,7 @@ float TestMatch(char* first, char* second)
 
 
 
-#define SimilarityThreshold 0.5
+#define SimilarityThreshold 0.6
 
 
 int editModel(const char* cf) {
@@ -367,8 +367,10 @@ int createUserModel(const char* nome, const char* cognome, const char* cf) {
 	err = FxISO_Mem_SaveBufferToFile(model, &gModel);
 	if (err)
 		return err;
-	else
+	else {
+		MessageBoxA(NULL, "User succesfully enrolled", "", MB_OK);
 		return 0;
+	}
 }
 
 int authenticate() {
