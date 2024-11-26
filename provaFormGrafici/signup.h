@@ -226,12 +226,15 @@ namespace provaFormGrafici {
 			return;
 		}
 
-		if (err == 16) {
-			error->Text = "Operation aborted";
+		else if (err == 0)
+			this->Close();
+
+		else {
+			const char* errorText = convertErrorToText(err);
+			error->Text = gcnew System::String(errorText);
 			return;
 		}
 
-		this->Close();
 
 
 	}

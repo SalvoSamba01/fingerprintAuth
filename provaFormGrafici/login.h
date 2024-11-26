@@ -142,76 +142,20 @@ namespace provaFormGrafici {
 						
 						int err = authenticate();
 
-						char errorType[100];
-						switch(err){
-							case -1:
-								strcpy(errorType, "User not identified");
-								break;
-							case 0:
-								strcpy(errorType, "Login Successful");
-								break;
-							case 16:
-								strcpy(errorType, "Operation aborted");
-								break;
-							case 112:
-								strcpy(errorType, "Initialization Failure");
-								break;
-							case 113:
-								strcpy(errorType, "Setting failure");
-								break;
-							case 114:
-								strcpy(errorType, "Grabbing failure");
-								break;
-							case 115:
-								strcpy(errorType, "UnInizialization Error");
-								break;
-							case 116:
-								strcpy(errorType, "Show error");
-								break;
-							case 117:
-								strcpy(errorType, "Timer error");
-								break;
-							case 118:
-								strcpy(errorType, "Invalid parameters");
-								break;
-							case 120:
-								strcpy(errorType, "No Online Capability");
-								break;
-							case 121:
-								strcpy(errorType, "Invalid Fingerprint Image");
-								break;
-							case 122:
-								strcpy(errorType, "Invalid Latent");
-								break;
-							case 123:
-								strcpy(errorType, "Invalid Liveness");
-								break;
-							case 124:
-								strcpy(errorType, "Feature Not Available");
-								break;
-							case 125:
-								strcpy(errorType, "Communication error");
-								break;
-							case 126:
-								strcpy(errorType, "File Permission Error");
-								break;
-							case 127:
-								strcpy(errorType, "Filesystem Error");
-								break;
-							case 404:
-								strcpy(errorType, "No user enrolled");
-								break;
-							default:
-								strcpy(errorType, "Unknown error");
-								break;
-							}
-							if (err == 0 || err == -1 || err==16)
-								this->message->Text = gcnew String(errorType);
-							else if (err == 404)
-								this->message->Text = "Error: " + gcnew String(errorType);
-							else
-								this->message->Text = "Error " + err + ": " + gcnew String(errorType);
-						
+						if (err == -1) {
+							message->Text = "User not identified";
+							return;
+						}
+						else if (err == 0) {
+							message->Text = "Login succesfull";
+							return;
+						}
+
+						else {
+							const char* errorText = convertErrorToText(err);
+							message->Text = gcnew System::String(errorText);
+							return;
+						}
 					}
 	private: System::Void label4_Click(System::Object^ sender, System::EventArgs^ e) {
 	}

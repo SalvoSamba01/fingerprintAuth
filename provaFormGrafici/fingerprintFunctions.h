@@ -22,3 +22,5 @@ int authenticate();
 
 int editModel(const char* cf);
 
+const char* convertErrorToText(int err);
+

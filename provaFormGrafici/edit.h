@@ -167,20 +167,21 @@ namespace provaFormGrafici {
 			error->Text = "Error in searching file";
 			return;
 		}
-
-		if (err == 0) {
+		else if (err == -10) {
+			error->Text = "User not found";
+			return;
+		}
+		else if (err == 0) {
 			error->Text = "Model updated";
 			return;
 		}
 
-		if (err == 16) {
-			error->Text = "Operation aborted";
-			return;
-		}
 		else {
-			error->Text = "User not found";
+			const char* errorText = convertErrorToText(err);
+			error->Text = gcnew System::String(errorText);
 			return;
 		}
+		
 		this->Close();
 
 	}

@@ -89,7 +89,7 @@ float TestMatch(char* first, char* second)
 
 	err = FxISO_Eng_Matching(0.6f, &sim);
 	if (err)
-		return 0.0;
+		return err;
 
 	return sim;
 }
@@ -127,6 +127,11 @@ int editModel(const char* cf) {
 		string errore = "Error: " + string(e.what());
 		MessageBoxA(NULL, errore.c_str(), "Error", MB_OK);
 		return -1;
+	}
+
+	if (strcmp(path, "") == 0) {
+		MessageBoxA(NULL, "User not found", "Error", MB_OK);
+		return -10;
 	}
 
 	err = FxISO_MM_DeleteAll();
@@ -225,6 +230,9 @@ int Work(const char* nome, const char* cognome, const char* cf)
 
 		//Perform the match
 		r0 = TestMatch(model2, model1);
+
+
+
 		sprintf_s(msg, 199, "Matching result between 2 models: %f\n", r0);
 
 		if (r0 > SimilarityThreshold)
@@ -465,4 +473,84 @@ int authenticate() {
 	MessageBoxA(NULL, msg, "Result", MB_ICONERROR | MB_OK);
 	DeleteFileA(acquiredModel);
 	return -1;
+}
+
+
+const char* convertErrorToText(int err) {
+	switch (err) {
+		case 1:
+			return "Insufficient memory";
+		case 3:
+			return "Timeout";
+		case 4:
+			return "File not existing";
+		case 5:
+			return "Invalid fingerprint data";
+		case 6:
+			return "Too low quality";
+		case 7:
+			return "Invalid model file";
+		case 8:
+			return "Model not created";
+		case 9:
+			return "Cannot write to disk";
+		case 10:
+			return "Cannot update model";
+		case 11:
+			return "Invalid mode";
+		case 12:
+			return "Fingerprint not available";
+		case 13:
+			return "Cannot process fingerprint";
+		case 14:
+			return "Low number of minutiae";
+		case 15:
+			return "Model not available";
+		case 16:
+			return "Operation cancelled";
+		case 17:
+			return "Invalid size";
+		case 18:
+			return "Invalid parameter";
+		case 20:
+			return "Init not called";
+		case 21:
+			return "Incomplete DLL set";
+		case 100:
+			return "Acquisition error";
+		case 110:
+			return "DLL Not found";
+		case 111:
+			return "Corrupted DLL";
+		case 112:
+			return "Initialization failure";
+		case 113:
+			return "Setting failure";
+		case 114:
+			return "Grabbing failure";
+		case 115:
+			return "UnInitialization Error";
+		case 116:
+			return "Show error";
+		case 117:
+			return "Timer error";
+		case 118:
+			return "Invalid parameters";
+		case 120:
+			return "No Online Capability";
+		case 121:
+			return "Invalid Fingerprint Image";
+		case 122:
+			return "Invalid Latent";
+		case 123:
+			return "Invalid Liveness";
+		case 124:
+			return "Feature Not Available";
+		case 125:
+			return "Communication error";
+		case 126:
+			return "File Permission Error";
+		case 127:
+			return "Filesystem Error";
+		}
 }
