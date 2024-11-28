@@ -103,7 +103,7 @@ float TestMatch(char* first, char* second)
 
 #define SimilarityThreshold 0.6
 
-
+/*
 int editModel(const char* cf) {
 	int err;
 
@@ -171,6 +171,139 @@ int editModel(const char* cf) {
 	return 0;
 
 }
+*/
+
+
+int editModel(const char* cf) {
+	int err;
+	char path[256] = "";
+	std::fstream users;
+	std::string updatedLine;
+
+	try {
+		// Definizione della regex per il nome del file
+		std::string patternStr = R"(([^_]+)_([^_]+)_)";
+		patternStr += std::string(cf) + R"(\.ist$)";
+		std::regex filePattern(patternStr);
+
+		// Scansiona la directory corrente per il file del modello
+		for (const auto& entry : fs::directory_iterator("./")) {
+			if (entry.is_regular_file()) {
+				std::string fileName = entry.path().filename().string();
+				if (std::regex_match(fileName, filePattern)) {
+					std::string fullPath = entry.path().string();
+					// Copia il percorso nel buffer `path`
+					strcpy(path, fullPath.c_str());
+				}
+			}
+		}
+	}
+	catch (const std::exception& e) {
+		std::string errore = "Error: " + std::string(e.what());
+		MessageBoxA(NULL, errore.c_str(), "Error", MB_OK);
+		return -1;
+	}
+
+	if (strcmp(path, "") == 0) {
+		MessageBoxA(NULL, "User not found", "Error", MB_OK);
+		return -10;
+	}
+
+	// Modifica del modello (aggiungere, aggiornare, o rimuovere dita)
+	err = FxISO_MM_DeleteAll();
+	if (err)
+		return err;
+
+	err = FxISO_Mem_LoadBufferFromFile(path, &gModel);
+	if (err)
+		return err;
+
+	err = FxISO_MM_LoadFromMemory(&gModel, ISOFORMAT_STANDARD);
+	if (err)
+		return err;
+
+	err = FxISO_MM_EnrollmentDlg(AUTOMATIC, NULL, -1, -1, 50, 10, 0.5, FINGERS_ALL_BITMASK);
+	if (err)
+		return err;
+
+	err = FxISO_MM_SaveToMemory(&gModel, ISOFORMAT_STANDARD, TRUE);
+	if (err)
+		return err;
+
+	err = FxISO_Mem_SaveBufferToFile(path, &gModel);
+	if (err)
+		return err;
+
+	// Aggiornamento della riga nel file CSV
+	users.open("users.csv", std::ios::in | std::ios::out);
+	if (!users) {
+		return -1; // Errore nell'apertura del file
+	}
+
+	std::string line;
+	bool userFound = false;
+	std::string updatedFingerInfo;
+	int nFingerVect[10] = { 0 };
+	int nUnknownFinger = 0;
+
+	err = FxISO_MM_GetInfo(nFingerVect, &nUnknownFinger);
+	if (err)
+		return err;
+
+	const char* fingerNames[10] = {
+		"Right Thumb", "Right Forefinger", "Right Middle Finger",
+		"Right Ring Finger", "Right Little Finger",
+		"Left Thumb", "Left Forefinger", "Left Middle Finger",
+		"Left Ring Finger", "Left Little Finger"
+	};
+
+	// Genera la nuova lista delle dita registrate
+	updatedFingerInfo = "";
+	for (int i = 0; i < 10; i++) {
+		if (nFingerVect[i] > 0) {
+			updatedFingerInfo += fingerNames[i] + std::string(" x") + std::to_string(nFingerVect[i]) + ", ";
+		}
+	}
+	if (nUnknownFinger > 0) {
+		updatedFingerInfo += "Unknown x" + std::to_string(nUnknownFinger);
+	}
+
+	// Leggi il file e aggiorna la riga corrispondente
+	std::ostringstream oss;
+	while (getline(users, line)) {
+		if (line.find(cf) != std::string::npos) {
+			userFound = true;
+			// Trova e sostituisci la riga con la nuova lista di dita
+			size_t pos = line.find(",", line.find(",", line.find(",") + 1) + 1); // Posizione in cui iniziano le dita
+			line = line.substr(0, pos + 2) + updatedFingerInfo; // Aggiorna le dita
+			updatedLine = line;
+		}
+		else {
+			oss << line << "\n";
+		}
+	}
+
+	if (!userFound) {
+		users.close();
+		MessageBoxA(NULL, "User not found in CSV", "Error", MB_OK);
+		return -10;
+	}
+
+	// Riscrivi il file con la riga aggiornata
+	users.close();
+	users.open("users.csv", std::ios::out | std::ios::trunc);
+	if (!users) {
+		return -1;
+	}
+
+	users << oss.str();  // Riscrivi il file con le righe non modificate
+	users << updatedLine << "\n"; // Aggiungi la riga aggiornata
+	users.close();
+
+	MessageBoxA(NULL, "User model modified", "Edit OK", MB_OK);
+	return 0;
+}
+
 
 
 int Work(const char* nome, const char* cognome, const char* cf)
