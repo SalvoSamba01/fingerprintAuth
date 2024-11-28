@@ -499,8 +499,9 @@ int authenticate() {
 	int err;
 	float r0;
 	char msg[200];
+	float q;
 
-	string folderPath = "./"; // Sostituisci con il percorso della tua cartella
+	string folderPath = "./";
 	vector<string> istFiles;
 
 	try {
@@ -509,55 +510,121 @@ int authenticate() {
 
 		for (const auto& entry : fs::directory_iterator(folderPath)) {
 			if (entry.is_regular_file() && entry.path().extension() == ".ist") {
-				// Verifica se il nome del file corrisponde al pattern
 				if (regex_match(entry.path().filename().string(), pattern)) {
 					istFiles.push_back(entry.path().filename().string());
 				}
 			}
 		}
 	}
-
 	catch (const fs::filesystem_error& e) {
 		string errore = "Errore: " + string(e.what());
 		MessageBoxA(NULL, errore.c_str(), "Errore", MB_OK);
 	}
 
 	if (istFiles.size() == 0) {
-		// MessageBox che dice che non ci sono file .ist
 		MessageBoxA(NULL, "No file .ist found: no user enrolled", "No user enrolled error", MB_OK);
 		return 404;
 	}
 
-	err = CaptureFinger(acquiredFile);	//capture user fingerprint
-	if (err)
+	//while (true) {
+	err = FxISO_Fing_AcquireAutomatic(NULL, -1, -1, &q, 50, 20, 1.5);
+	if (err) return err;
+
+	err = FxISO_Fing_SaveToMemory(&gImage, NATIVE_RESOLUTION, NULL);
+	err = FxISO_Mem_SaveBufferToFile(acquiredFile, &gImage); //SCOMMENTARE PER NON SALVARE L'IMPRONTA IN LOCALE
+
+	int warningCode;
+
+
+	//err = FxISO_ImageTool_EvaluateWarning(q, reinterpret_cast<BYTE*>(&gImage), gImage.imageWidth, gImage.imageHeight, gImage.resolution, &warningCode);
+
+	if (err) {
+		MessageBoxA(NULL, "Error evaluating the fingerprint warning!", "Error", MB_ICONERROR | MB_OK);
 		return err;
+	}
 
-	err = CreateModel(acquiredFile, acquiredModel);	//crea modello che contiene l'impronta
-	if (err)
-		return err;
+	/*
+	if (warningCode != AWRN_OK) {
 
-	//DeleteFile(_T("Test.tif"));	//usually images are not recorded for privacy protection
+		const char* warningMessages[] = {
+			"Image Quality is Ok",
+			"Fingerprint not found. Please place your finger properly.",
+			"Too many fingerprints detected. Use only one finger.",
+			"Low contrast detected. Apply more pressure or use a moisturizer.",
+			"Fingerprint is too dark. Apply less pressure or dry your finger.",
+			"Low-quality fingerprint. Try using a moisturizer.",
+			"Dirty prism detected. Please clean the platen surface.",
+			"Fingerprint is too close to the left margin.",
+			"Fingerprint is too close to the right margin.",
+			"Fingerprint is too close to the top margin.",
+			"Fingerprint is too close to the bottom margin.",
+			"Excessive rotation detected. Adjust finger placement.",
+			"Motion detected. Please keep your finger still."
+		};
 
-	//Perform the match with every ist found
+		std::string warningMsg = "Warning detected: ";
+		warningMsg += warningMessages[warningCode];
+		warningMsg += "\n\nDo you want to use this fingerprint or retry?";
+
+		int userChoice = MessageBoxA(NULL, warningMsg.c_str(), "Warning", MB_ICONWARNING | MB_YESNO);
+		if (userChoice == IDNO) continue;
+	}
+
+	//break;
+}
+*/
+
+
+	err = CreateModel(acquiredFile, acquiredModel);
+	if (err) return err;
+
+
+
+	// Estrazione delle minuzie
+	int nMinutiae = 0;
+	err = FxISO_SM_GetNumMinutiae(&nMinutiae);
+	if (err || nMinutiae == 0) {
+		MessageBoxA(NULL, "No minutiae detected in the fingerprint.", "Minutiae Info", MB_ICONERROR | MB_OK);
+	}
+	else {
+		std::ofstream outFile("minutiae_info.txt");
+		if (!outFile) {
+			MessageBoxA(NULL, "Failed to create minutiae info file.", "Error", MB_ICONERROR | MB_OK);
+			return -1;
+		}
+
+		outFile << "Number of minutiae: " << nMinutiae << "\n\n";
+
+		for (int i = 0; i < nMinutiae; ++i) {
+			int x, y, angle, quality;
+			err = FxISO_SM_GetMinutia(i, &x, &y, &angle, &quality);
+			if (err) continue; // Salta eventuali errori
+
+			outFile << "Minutia " << (i + 1) << ":\n";
+			outFile << "  Position: (" << x << ", " << y << ")\n";
+			outFile << "  Angle: " << angle << "°\n";
+			outFile << "  Quality: " << quality << "/100\n\n";
+		}
+
+		outFile.close();
+
+		MessageBoxA(NULL, "Minutiae details saved to 'minutiae_info.txt'.", "Minutiae Info", MB_OK);
+	}
+
 	for (const auto& fileName : istFiles) {
-
 		char model1[200], model2[200];
 		sprintf_s(model1, 199, "%s", fileName.c_str());
 		sprintf_s(model2, 199, "%s", acquiredModel);
 
-		//Perform the match
 		r0 = TestMatch(model1, model2);
 		sprintf_s(msg, 199, "Matching result between 2 models: %f\n", r0);
 
-		if (r0 > SimilarityThreshold)
-		{
+		if (r0 > SimilarityThreshold) {
+			std::string baseName = fileName.substr(0, fileName.find_last_of('.'));
+			std::string userName = baseName.substr(0, baseName.find('_'));
+			std::string userSurname = baseName.substr(baseName.find('_') + 1, baseName.find_last_of('_') - baseName.find('_') - 1);
+			std::string cf = baseName.substr(baseName.find_last_of('_') + 1);
 
-			std::string baseName = fileName.substr(0, fileName.find_last_of('.')); // Remove file extension
-			std::string userName = baseName.substr(0, baseName.find('_')); // Get the first part (name)
-			std::string userSurname = baseName.substr(baseName.find('_') + 1, baseName.find_last_of('_') - baseName.find('_') - 1); // Get the surname
-			std::string cf = baseName.substr(baseName.find_last_of('_') + 1); // Get the ID
-
-			// Modify the message to include user information
 			std::string message = "User identified: welcome back " + userName + " " + userSurname + " (" + cf + ")";
 			MessageBoxA(NULL, message.c_str(), "Result", MB_ICONINFORMATION | MB_OK);
 
@@ -565,11 +632,13 @@ int authenticate() {
 			return 0;
 		}
 	}
+
 	sprintf_s(msg, 199, "\nUser NOT identified!");
 	MessageBoxA(NULL, msg, "Result", MB_ICONERROR | MB_OK);
 	DeleteFileA(acquiredModel);
 	return -1;
 }
+
 
 
 
