@@ -1,6 +1,16 @@
-﻿  Home.cpp
-  login.cpp
-  signup.cpp
-  Generazione del codice in corso...
+﻿  fingerprintFunctions.cpp
+C:\Users\smbsv\Desktop\Work\provaFormGrafici\fingerprintFunctions.cpp(97,10): warning C4244: 'return': conversione da 'int' a 'float'. Possibile perdita di dati.
+C:\Users\smbsv\Desktop\Work\provaFormGrafici\fingerprintFunctions.cpp(126,6): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\smbsv\Desktop\Work\provaFormGrafici\fingerprintFunctions.cpp(210,3): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\smbsv\Desktop\Work\provaFormGrafici\fingerprintFunctions.cpp(213,3): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\smbsv\Desktop\Work\provaFormGrafici\fingerprintFunctions.cpp(214,3): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\smbsv\Desktop\Work\provaFormGrafici\fingerprintFunctions.cpp(215,3): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\smbsv\Desktop\Work\provaFormGrafici\fingerprintFunctions.cpp(389,2): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\smbsv\Desktop\Work\provaFormGrafici\fingerprintFunctions.cpp(390,2): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\smbsv\Desktop\Work\provaFormGrafici\fingerprintFunctions.cpp(391,2): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\smbsv\Desktop\Work\provaFormGrafici\fingerprintFunctions.cpp(392,2): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\smbsv\Desktop\Work\provaFormGrafici\fingerprintFunctions.cpp(393,2): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\smbsv\Desktop\Work\provaFormGrafici\fingerprintFunctions.cpp(394,2): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\smbsv\Desktop\Work\provaFormGrafici\fingerprintFunctions.cpp(655,1): warning C4715: 'convertErrorToText': non tutti i percorsi di controllo restituiscono un valore
   about.obj : rilevato modulo MSIL; il collegamento incrementale è disabilitato per MSIL; verrà eseguito il collegamento completo
   provaFormGrafici.vcxproj -> C:\Users\smbsv\Desktop\Work\x64\Debug\provaFormGrafici.exe

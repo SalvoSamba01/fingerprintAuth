@@ -2,6 +2,8 @@
 #include <string.h>
 #include "fxISOdll.h"
 #include "fxISOenrdlg.h" 
+#include "fxISOImageTools.h"
+#include "AcquisitionWarnings.h"
 #include <tchar.h>
 #include <windows.h>
 #include <string>
@@ -12,6 +14,9 @@
 #include <stdio.h>
 #include <vector> 
 #include <regex>
+#include <sstream>
+
+
 
 namespace fs = std::filesystem;
 
@@ -312,7 +317,6 @@ int end()
 }
 
 int createUserModel(const char* nome, const char* cognome, const char* cf) {
-
 	fstream users;
 	users.open("users.csv", ios::in);
 	if (users) {
@@ -328,7 +332,6 @@ int createUserModel(const char* nome, const char* cognome, const char* cf) {
 
 	MessageBoxA(NULL, "Starting enrollment", "", MB_OK);
 
-
 	int err = FxISO_MM_DeleteAll();
 	if (err)
 		return err;
@@ -341,31 +344,49 @@ int createUserModel(const char* nome, const char* cognome, const char* cf) {
 	if (err)
 		return err;
 
-
-	size_t buffer_size = strlen(nome) + strlen(cognome) + 1; // +1 per il terminatore nullo
-
-	// Allocazione dinamica della memoria per 'model'
-	char* model = (char*)malloc(buffer_size);
-	if (model == NULL) {
-		return -1; // Errore di allocazione della memoria
-	}
-
-	// file contenente i dati degli utenti
-
-	
-
-
+	// Recupera informazioni sui modelli salvati
+	int nFingerVect[10] = { 0 };  // Numero di campioni per ogni dito
+	int nUnknownFinger = 0;    // Campioni di dita non identificate
+	err = FxISO_MM_GetInfo(nFingerVect, &nUnknownFinger);
+	if (err)
+		return err;
 
 	users.open("users.csv", ios::app);
+	if (!users) {
+		return -1; // Errore nell'apertura del file
+	}
 
-	users << nome << ", " << cognome << ", " << cf << "\n";
+	// Scrive nome, cognome e CF
+	users << nome << ", " << cognome << ", " << cf;
 
+	// Scrive le informazioni sulle dita registrate
+	const char* fingerNames[10] = {
+		"Right Thumb", "Right Forefinger", "Right Middle Finger",
+		"Right Ring Finger", "Right Little Finger",
+		"Left Thumb", "Left Forefinger", "Left Middle Finger",
+		"Left Ring Finger", "Left Little Finger"
+	};
+
+	for (int i = 0; i < 10; i++) {
+		if (nFingerVect[i] > 0) {
+			users << ", " << fingerNames[i] << " x" << nFingerVect[i];
+		}
+	}
+
+	if (nUnknownFinger > 0) {
+		users << ", Unknown x" << nUnknownFinger;
+	}
+
+	users << "\n";
 	users.close();
 
-	// Inizializza il buffer 'model' con la stringa 'nome'
+	// Salva il modello su file
+	size_t buffer_size = strlen(nome) + strlen(cognome) + strlen(cf) + 10;
+	char* model = (char*)malloc(buffer_size);
+	if (model == NULL) {
+		return -1;
+	}
 	strcpy(model, nome);
-
-	// Concatenazione delle stringhe
 	strcat(model, "_");
 	strcat(model, cognome);
 	strcat(model, "_");
@@ -373,13 +394,20 @@ int createUserModel(const char* nome, const char* cognome, const char* cf) {
 	strcat(model, ".ist");
 
 	err = FxISO_Mem_SaveBufferToFile(model, &gModel);
+	free(model);
+
 	if (err)
 		return err;
-	else {
-		MessageBoxA(NULL, "User succesfully enrolled", "", MB_OK);
-		return 0;
-	}
+
+	MessageBoxA(NULL, "User successfully enrolled", "", MB_OK);
+	return 0;
 }
+
+
+
+// funzione AUTHENTICATE vecchia
+
+/*
 
 int authenticate() {
 	char acquiredFile[] = "acquiredFingerprint.tif";
@@ -416,16 +444,6 @@ int authenticate() {
 		return 404;
 	}
 
-	// modelli .ist di utenti registrati
-	/*
-	for (const auto& fileName : istFiles) {
-		std::string message = "File trovato: " + fileName;
-		// Mostra il MessageBox con il nome del file
-		MessageBoxA(NULL, message.c_str(), "File", MB_OK);
-	}
-	*/
-		
-		
 	err = CaptureFinger(acquiredFile);	//capture user fingerprint
 	if (err)
 		return err;
@@ -438,12 +456,6 @@ int authenticate() {
 
 	//Perform the match with every ist found
 	for (const auto& fileName : istFiles) {
-
-		//message box che stampa il nome del modello con cui sto tentando il matching in questa iterazione
-		/*
-		std::string message = "Matching con: " + fileName;
-		MessageBoxA(NULL, message.c_str(), "Matching", MB_OK);
-		*/
 
 		char model1[200], model2[200];
 		sprintf_s(model1, 199, "%s", fileName.c_str());
@@ -468,12 +480,99 @@ int authenticate() {
 			DeleteFileA(acquiredModel);
 			return 0;
 		}
-	}	
+	}
 	sprintf_s(msg, 199, "\nUser NOT identified!");
 	MessageBoxA(NULL, msg, "Result", MB_ICONERROR | MB_OK);
 	DeleteFileA(acquiredModel);
 	return -1;
 }
+
+*/
+
+
+
+ 
+
+int authenticate() {
+	char acquiredFile[] = "acquiredFingerprint.tif";
+	char acquiredModel[] = "acquiredModel.ist";
+	int err;
+	float r0;
+	char msg[200];
+
+	string folderPath = "./"; // Sostituisci con il percorso della tua cartella
+	vector<string> istFiles;
+
+	try {
+		// Regex per controllare il formato [qualunquecosa]_[qualunquecosa]_[qualunquecosa]
+		regex pattern(R"(([^_]+_[^_]+_[^_]+)\.ist$)");
+
+		for (const auto& entry : fs::directory_iterator(folderPath)) {
+			if (entry.is_regular_file() && entry.path().extension() == ".ist") {
+				// Verifica se il nome del file corrisponde al pattern
+				if (regex_match(entry.path().filename().string(), pattern)) {
+					istFiles.push_back(entry.path().filename().string());
+				}
+			}
+		}
+	}
+
+	catch (const fs::filesystem_error& e) {
+		string errore = "Errore: " + string(e.what());
+		MessageBoxA(NULL, errore.c_str(), "Errore", MB_OK);
+	}
+
+	if (istFiles.size() == 0) {
+		// MessageBox che dice che non ci sono file .ist
+		MessageBoxA(NULL, "No file .ist found: no user enrolled", "No user enrolled error", MB_OK);
+		return 404;
+	}
+
+	err = CaptureFinger(acquiredFile);	//capture user fingerprint
+	if (err)
+		return err;
+
+	err = CreateModel(acquiredFile, acquiredModel);	//crea modello che contiene l'impronta
+	if (err)
+		return err;
+
+	//DeleteFile(_T("Test.tif"));	//usually images are not recorded for privacy protection
+
+	//Perform the match with every ist found
+	for (const auto& fileName : istFiles) {
+
+		char model1[200], model2[200];
+		sprintf_s(model1, 199, "%s", fileName.c_str());
+		sprintf_s(model2, 199, "%s", acquiredModel);
+
+		//Perform the match
+		r0 = TestMatch(model1, model2);
+		sprintf_s(msg, 199, "Matching result between 2 models: %f\n", r0);
+
+		if (r0 > SimilarityThreshold)
+		{
+
+			std::string baseName = fileName.substr(0, fileName.find_last_of('.')); // Remove file extension
+			std::string userName = baseName.substr(0, baseName.find('_')); // Get the first part (name)
+			std::string userSurname = baseName.substr(baseName.find('_') + 1, baseName.find_last_of('_') - baseName.find('_') - 1); // Get the surname
+			std::string cf = baseName.substr(baseName.find_last_of('_') + 1); // Get the ID
+
+			// Modify the message to include user information
+			std::string message = "User identified: welcome back " + userName + " " + userSurname + " (" + cf + ")";
+			MessageBoxA(NULL, message.c_str(), "Result", MB_ICONINFORMATION | MB_OK);
+
+			DeleteFileA(acquiredModel);
+			return 0;
+		}
+	}
+	sprintf_s(msg, 199, "\nUser NOT identified!");
+	MessageBoxA(NULL, msg, "Result", MB_ICONERROR | MB_OK);
+	DeleteFileA(acquiredModel);
+	return -1;
+}
+
+
+
 
 
 const char* convertErrorToText(int err) {
