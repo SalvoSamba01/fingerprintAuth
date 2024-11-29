@@ -11,7 +11,13 @@ C:\Users\smbsv\Desktop\Work\provaFormGrafici\fingerprintFunctions.cpp(524,2): wa
 C:\Users\smbsv\Desktop\Work\provaFormGrafici\fingerprintFunctions.cpp(525,2): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
 C:\Users\smbsv\Desktop\Work\provaFormGrafici\fingerprintFunctions.cpp(526,2): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
 C:\Users\smbsv\Desktop\Work\provaFormGrafici\fingerprintFunctions.cpp(527,2): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-C:\Users\smbsv\Desktop\Work\provaFormGrafici\fingerprintFunctions.cpp(669,6): warning C4101: 'warningCode': variabile locale senza riferimenti
-C:\Users\smbsv\Desktop\Work\provaFormGrafici\fingerprintFunctions.cpp(857,1): warning C4715: 'convertErrorToText': non tutti i percorsi di controllo restituiscono un valore
+C:\Users\smbsv\Desktop\Work\provaFormGrafici\fingerprintFunctions.cpp(749,41): warning C4244: 'argomento': conversione da 'float' a 'int'. Possibile perdita di dati.
+C:\Users\smbsv\Desktop\Work\provaFormGrafici\fingerprintFunctions.cpp(724,5): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\smbsv\Desktop\Work\provaFormGrafici\fingerprintFunctions.cpp(727,5): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\smbsv\Desktop\Work\provaFormGrafici\fingerprintFunctions.cpp(730,5): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\smbsv\Desktop\Work\provaFormGrafici\fingerprintFunctions.cpp(733,5): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\smbsv\Desktop\Work\provaFormGrafici\fingerprintFunctions.cpp(736,5): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\smbsv\Desktop\Work\provaFormGrafici\fingerprintFunctions.cpp(693,8): warning C4101: 'buffer': variabile locale senza riferimenti
+C:\Users\smbsv\Desktop\Work\provaFormGrafici\fingerprintFunctions.cpp(929,1): warning C4715: 'convertErrorToText': non tutti i percorsi di controllo restituiscono un valore
   about.obj : rilevato modulo MSIL; il collegamento incrementale è disabilitato per MSIL; verrà eseguito il collegamento completo
   provaFormGrafici.vcxproj -> C:\Users\smbsv\Desktop\Work\x64\Debug\provaFormGrafici.exe
