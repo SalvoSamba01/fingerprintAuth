@@ -200,16 +200,14 @@ namespace provaFormGrafici {
 		}
 
 		int err;
-		System::String^ vname = name->Text; // dove nameTextBox è il tuo controllo TextBox
-		System::String^ vsurname = surname->Text; // e così via per surname
+		System::String^ vname = name->Text;
+		System::String^ vsurname = surname->Text;
 		System::String^ vcf = cf->Text;
 
-		// Conversione di System::String^ in std::string
 		std::string nameStdString = msclr::interop::marshal_as<std::string>(vname);
 		std::string surnameStdString = msclr::interop::marshal_as<std::string>(vsurname);
 		std::string cfStdString = msclr::interop::marshal_as<std::string>(vcf);
 
-		// Ora puoi ottenere un char*
 		const char* nameChar = nameStdString.c_str();
 		const char* surnameChar = surnameStdString.c_str();
 		const char* cfChar = cfStdString.c_str();

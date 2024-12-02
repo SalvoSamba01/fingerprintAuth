@@ -76,12 +76,6 @@ float TestMatch(char* first, char* second)
 	sprintf_s(model1, 199, "%s", first);
 	sprintf_s(model2, 199, "%s", second);
 
-	//message box col nome dei due modelli in confronto
-	/*
-	std::string message = "Matching tra: " + string(model1) + " e " + string(model2);
-	MessageBoxA(NULL, message.c_str(), "Matching", MB_OK);
-	*/
-
 	err = FxISO_Mem_LoadBufferFromFile(model1, &gModel);
 	err = FxISO_MM_LoadFromMemory(&gModel, ISOFORMAT_STANDARD);
 	if (err)
@@ -103,76 +97,6 @@ float TestMatch(char* first, char* second)
 
 #define SimilarityThreshold 0.6
 
-/*
-int editModel(const char* cf) {
-	int err;
-
-	char path[256] = "";
-	
-
-	try {
-		// Definizione della regex per il nome del file
-		std::string patternStr = R"(([^_]+)_([^_]+)_)";
-		patternStr += std::string(cf) + R"(\.ist$)";
-		std::regex filePattern(patternStr);
-
-		// Scansiona la directory corrente
-		for (const auto& entry : fs::directory_iterator("./")) {
-			if (entry.is_regular_file()) {
-				std::string fileName = entry.path().filename().string();
-				if (std::regex_match(fileName, filePattern)) {
-					std::string fullPath = entry.path().string();
-					// Copia il percorso nel buffer `path`
-					strcpy(path, fullPath.c_str());
-				}
-			}
-		}
-	}
-	catch (const std::exception& e) {
-		string errore = "Error: " + string(e.what());
-		MessageBoxA(NULL, errore.c_str(), "Error", MB_OK);
-		return -1;
-	}
-
-	if (strcmp(path, "") == 0) {
-		MessageBoxA(NULL, "User not found", "Error", MB_OK);
-		return -10;
-	}
-
-	err = FxISO_MM_DeleteAll();
-	if (err)
-		return err;
-		
-	err = FxISO_Mem_LoadBufferFromFile(path, &gModel);
-	if (err)
-		return err;
-
-	err = FxISO_MM_LoadFromMemory(&gModel, ISOFORMAT_STANDARD);
-	if (err)
-		return err;
-
-
-	err = FxISO_MM_EnrollmentDlg(AUTOMATIC, NULL, -1, -1, 50, 10, 0.5, FINGERS_ALL_BITMASK);
-	if (err)
-		return err;
-
-
-	err = FxISO_MM_SaveToMemory(&gModel, ISOFORMAT_STANDARD, TRUE);
-	if (err)
-		return err;
-
-	err = FxISO_Mem_SaveBufferToFile(path, &gModel);
-	if (err)
-		return err;
-
-
-	MessageBoxA(NULL, "User model modified", "Edit OK", MB_OK);
-
-	return 0;
-
-}
-*/
-
 
 int editModel(const char* cf) {
 	int err;
@@ -180,19 +104,18 @@ int editModel(const char* cf) {
 	std::fstream users;
 	std::string updatedLine;
 
+
+	//find model
 	try {
-		// Definizione della regex per il nome del file
 		std::string patternStr = R"(([^_]+)_([^_]+)_)";
 		patternStr += std::string(cf) + R"(\.ist$)";
 		std::regex filePattern(patternStr);
 
-		// Scansiona la directory corrente per il file del modello
 		for (const auto& entry : fs::directory_iterator("./")) {
 			if (entry.is_regular_file()) {
 				std::string fileName = entry.path().filename().string();
 				if (std::regex_match(fileName, filePattern)) {
 					std::string fullPath = entry.path().string();
-					// Copia il percorso nel buffer `path`
 					strcpy(path, fullPath.c_str());
 				}
 			}
@@ -209,7 +132,7 @@ int editModel(const char* cf) {
 		return -10;
 	}
 
-	// Modifica del modello (aggiungere, aggiornare, o rimuovere dita)
+	// Edit model
 	err = FxISO_MM_DeleteAll();
 	if (err)
 		return err;
@@ -234,10 +157,10 @@ int editModel(const char* cf) {
 	if (err)
 		return err;
 
-	// Aggiornamento della riga nel file CSV
+	// Update users csv
 	users.open("users.csv", std::ios::in | std::ios::out);
 	if (!users) {
-		return -1; // Errore nell'apertura del file
+		return -1; 
 	}
 
 	std::string line;
@@ -246,6 +169,8 @@ int editModel(const char* cf) {
 	int nFingerVect[10] = { 0 };
 	int nUnknownFinger = 0;
 
+
+	// Extract saved fingers info
 	err = FxISO_MM_GetInfo(nFingerVect, &nUnknownFinger);
 	if (err)
 		return err;
@@ -257,7 +182,6 @@ int editModel(const char* cf) {
 		"Left Ring Finger", "Left Little Finger"
 	};
 
-	// Genera la nuova lista delle dita registrate
 	updatedFingerInfo = "";
 	for (int i = 0; i < 10; i++) {
 		if (nFingerVect[i] > 0) {
@@ -268,14 +192,12 @@ int editModel(const char* cf) {
 		updatedFingerInfo += "Unknown x" + std::to_string(nUnknownFinger);
 	}
 
-	// Leggi il file e aggiorna la riga corrispondente
 	std::ostringstream oss;
 	while (getline(users, line)) {
 		if (line.find(cf) != std::string::npos) {
 			userFound = true;
-			// Trova e sostituisci la riga con la nuova lista di dita
-			size_t pos = line.find(",", line.find(",", line.find(",") + 1) + 1); // Posizione in cui iniziano le dita
-			line = line.substr(0, pos + 2) + updatedFingerInfo; // Aggiorna le dita
+			size_t pos = line.find(",", line.find(",", line.find(",") + 1) + 1); 
+			line = line.substr(0, pos + 2) + updatedFingerInfo;
 			updatedLine = line;
 		}
 		else {
@@ -289,15 +211,14 @@ int editModel(const char* cf) {
 		return -10;
 	}
 
-	// Riscrivi il file con la riga aggiornata
 	users.close();
 	users.open("users.csv", std::ios::out | std::ios::trunc);
 	if (!users) {
 		return -1;
 	}
 
-	users << oss.str();  // Riscrivi il file con le righe non modificate
-	users << updatedLine << "\n"; // Aggiungi la riga aggiornata
+	users << oss.str();  
+	users << updatedLine << "\n";
 	users.close();
 
 	MessageBoxA(NULL, "User model modified", "Edit OK", MB_OK);
@@ -477,22 +398,20 @@ int createUserModel(const char* nome, const char* cognome, const char* cf) {
 	if (err)
 		return err;
 
-	// Recupera informazioni sui modelli salvati
-	int nFingerVect[10] = { 0 };  // Numero di campioni per ogni dito
-	int nUnknownFinger = 0;    // Campioni di dita non identificate
+	// Get model info
+	int nFingerVect[10] = { 0 };
+	int nUnknownFinger = 0;
 	err = FxISO_MM_GetInfo(nFingerVect, &nUnknownFinger);
 	if (err)
 		return err;
 
 	users.open("users.csv", ios::app);
 	if (!users) {
-		return -1; // Errore nell'apertura del file
+		return -1;
 	}
 
-	// Scrive nome, cognome e CF
 	users << nome << ", " << cognome << ", " << cf;
 
-	// Scrive le informazioni sulle dita registrate
 	const char* fingerNames[10] = {
 		"Right Thumb", "Right Forefinger", "Right Middle Finger",
 		"Right Ring Finger", "Right Little Finger",
@@ -513,7 +432,6 @@ int createUserModel(const char* nome, const char* cognome, const char* cf) {
 	users << "\n";
 	users.close();
 
-	// Salva il modello su file
 	size_t buffer_size = strlen(nome) + strlen(cognome) + strlen(cf) + 10;
 	char* model = (char*)malloc(buffer_size);
 	if (model == NULL) {
@@ -537,11 +455,6 @@ int createUserModel(const char* nome, const char* cognome, const char* cf) {
 }
 
 
-
-// funzione AUTHENTICATE vecchia
-
-/*
-
 int authenticate() {
 	char acquiredFile[] = "acquiredFingerprint.tif";
 	char acquiredModel[] = "acquiredModel.ist";
@@ -553,8 +466,9 @@ int authenticate() {
 	string folderPath = "./";
 	vector<string> istFiles;
 
+	// Check if there is at least one user enrolled
+
 	try {
-		// Regex per controllare il formato [qualunquecosa]_[qualunquecosa]_[qualunquecosa]
 		regex pattern(R"(([^_]+_[^_]+_[^_]+)\.ist$)");
 
 		for (const auto& entry : fs::directory_iterator(folderPath)) {
@@ -575,115 +489,7 @@ int authenticate() {
 		return 404;
 	}
 
-
-	err = FxISO_Fing_AcquireAutomatic(NULL, -1, -1, &q, 50, 20, 1.5);
-	if (err) return err;
-
-	err = FxISO_Fing_SaveToMemory(&gImage, NATIVE_RESOLUTION, NULL);
-	err = FxISO_Mem_SaveBufferToFile(acquiredFile, &gImage); //SCOMMENTARE PER NON SALVARE L'IMPRONTA IN LOCALE
-
-	err = CreateModel(acquiredFile, acquiredModel);
-	if (err) return err;
-
-	// Estrazione delle minuzie
-	int nMinutiae = 0;
-	err = FxISO_SM_GetNumMinutiae(&nMinutiae);
-	if (err || nMinutiae == 0) {
-		MessageBoxA(NULL, "No minutiae detected in the fingerprint.", "Minutiae Info", MB_ICONERROR | MB_OK);
-	}
-	else {
-		std::ofstream outFile("minutiae_info.txt");
-		if (!outFile) {
-			MessageBoxA(NULL, "Failed to create minutiae info file.", "Error", MB_ICONERROR | MB_OK);
-			return -1;
-		}
-
-		outFile << "Number of minutiae: " << nMinutiae << "\n\n";
-
-		for (int i = 0; i < nMinutiae; ++i) {
-			int x, y, angle, quality;
-			err = FxISO_SM_GetMinutia(i, &x, &y, &angle, &quality);
-			if (err) continue; // Salta eventuali errori
-
-			outFile << "Minutia " << (i + 1) << ":\n";
-			outFile << "  Position: (" << x << ", " << y << ")\n";
-			outFile << "  Angle: " << angle << "°\n";
-			outFile << "  Quality: " << quality << "/100\n\n";
-		}
-
-		outFile.close();
-
-		MessageBoxA(NULL, "Minutiae details saved to 'minutiae_info.txt'.", "Minutiae Info", MB_OK);
-	}
-
-	for (const auto& fileName : istFiles) {
-		char model1[200], model2[200];
-		sprintf_s(model1, 199, "%s", fileName.c_str());
-		sprintf_s(model2, 199, "%s", acquiredModel);
-
-		r0 = TestMatch(model1, model2);
-		sprintf_s(msg, 199, "Matching result between 2 models: %f\n", r0);
-
-		if (r0 > SimilarityThreshold) {
-			std::string baseName = fileName.substr(0, fileName.find_last_of('.'));
-			std::string userName = baseName.substr(0, baseName.find('_'));
-			std::string userSurname = baseName.substr(baseName.find('_') + 1, baseName.find_last_of('_') - baseName.find('_') - 1);
-			std::string cf = baseName.substr(baseName.find_last_of('_') + 1);
-
-			std::string message = "User identified: welcome back " + userName + " " + userSurname + " (" + cf + ")";
-			MessageBoxA(NULL, message.c_str(), "Result", MB_ICONINFORMATION | MB_OK);
-
-			DeleteFileA(acquiredModel);
-			return 0;
-		}
-	}
-
-	sprintf_s(msg, 199, "\nUser NOT identified!");
-	MessageBoxA(NULL, msg, "Result", MB_ICONERROR | MB_OK);
-	DeleteFileA(acquiredModel);
-	return -1;
-}
-
-*/
-
-
-
- 
-
-
-int authenticate() {
-	char acquiredFile[] = "acquiredFingerprint.tif";
-	char acquiredModel[] = "acquiredModel.ist";
-	int err;
-	float r0;
-	char msg[200];
-	float q;
-
-	string folderPath = "./";
-	vector<string> istFiles;
-
-	try {
-		// Regex per controllare il formato [qualunquecosa]_[qualunquecosa]_[qualunquecosa]
-		regex pattern(R"(([^_]+_[^_]+_[^_]+)\.ist$)");
-
-		for (const auto& entry : fs::directory_iterator(folderPath)) {
-			if (entry.is_regular_file() && entry.path().extension() == ".ist") {
-				if (regex_match(entry.path().filename().string(), pattern)) {
-					istFiles.push_back(entry.path().filename().string());
-				}
-			}
-		}
-	}
-	catch (const fs::filesystem_error& e) {
-		string errore = "Errore: " + string(e.what());
-		MessageBoxA(NULL, errore.c_str(), "Errore", MB_OK);
-	}
-
-	if (istFiles.size() == 0) {
-		MessageBoxA(NULL, "No file .ist found: no user enrolled", "No user enrolled error", MB_OK);
-		return 404;
-	}
-
+	// Acquire fingerprint
 
 	while (true) {
 
@@ -701,6 +507,8 @@ int authenticate() {
 		err = FxISO_Fing_SaveToMemory(&gImage, NATIVE_RESOLUTION, NULL);
 		if (err) return err;
 
+		// Check fingerprint quality and acquisition warnings
+
 		pImage = FxISO_Mem_GetImageRow(&gImage, 0);
 		imageSize = gImage.imageWidth * gImage.imageHeight;
 		width = gImage.imageWidth;
@@ -712,6 +520,7 @@ int authenticate() {
 		int resolution = 500;
 		int qualityWarning, qualityNIST, quality100;
 
+		// Evaluate fingerprint quality
 		err = FxISO_ImageTool_EvaluateNISTQuality(pRawCopy, width, height, resolution, &qualityNIST);
 		if (err) return err;
 
@@ -741,14 +550,10 @@ int authenticate() {
 		acquisitionMsg += "Quality (NFIQ): " + std::to_string(quality100) + "/100\n";
 		acquisitionMsg += "Quality (NIST): " + std::to_string(qualityNIST) +quality+"\n";
 		acquisitionMsg += "Resolution: " + std::to_string(resolution) + " dpi\n";
-		acquisitionMsg += "Width: " + std::to_string(width) + " pixels\n";
-		acquisitionMsg += "Height: " + std::to_string(height) + " pixels\n";
 		MessageBoxA(NULL, acquisitionMsg.c_str(), "Acquisition Info", MB_OK);
 
-
+		// Evaluate warnings
 		err = FxISO_ImageTool_EvaluateWarning(q, pRawCopy, width, height, resolution, &qualityWarning);
-
-		err = FxISO_Mem_SaveBufferToFile(acquiredFile, &gImage); //TOGLIERE PER NON SALVARE L'IMPRONTA IN LOCALE
 
 		if (err) {
 			MessageBoxA(NULL, "Error evaluating the fingerprint warning!", "Error", MB_ICONERROR | MB_OK);
@@ -782,41 +587,14 @@ int authenticate() {
 		break;
 	}
 
-	err = FxISO_Mem_SaveBufferToFile(acquiredFile, &gImage); //SCOMMENTARE PER NON SALVARE L'IMPRONTA IN LOCALE
+	err = FxISO_Mem_SaveBufferToFile(acquiredFile, &gImage); //TOGLIERE PER NON SALVARE L'IMPRONTA IN LOCALE
+	if (err) return err;
 
 	err = CreateModel(acquiredFile, acquiredModel);
 	if (err) return err;
 
-	// Minutiae extraction
-	int nMinutiae = 0;
-	err = FxISO_SM_GetNumMinutiae(&nMinutiae);
-	if (err || nMinutiae == 0) {
-		MessageBoxA(NULL, "No minutiae detected in the fingerprint.", "Minutiae Info", MB_ICONERROR | MB_OK);
-	}
-	else {
-		std::ofstream outFile("minutiae_info.txt");
-		if (!outFile) {
-			MessageBoxA(NULL, "Failed to create minutiae info file.", "Error", MB_ICONERROR | MB_OK);
-			return -1;
-		}
 
-		outFile << "Number of minutiae: " << nMinutiae << "\n\n";
-
-		for (int i = 0; i < nMinutiae; ++i) {
-			int x, y, angle, quality;
-			err = FxISO_SM_GetMinutia(i, &x, &y, &angle, &quality);
-			if (err) continue; // Salta eventuali errori
-
-			outFile << "Minutia " << (i + 1) << ":\n";
-			outFile << "  Position: (" << x << ", " << y << ")\n";
-			outFile << "  Angle: " << angle << "°\n";
-			outFile << "  Quality: " << quality << "/100\n\n";
-		}
-
-		outFile.close();
-
-		MessageBoxA(NULL, "Minutiae details saved to 'minutiae_info.txt'.", "Minutiae Info", MB_OK);
-	}
+	// Match fingerprint with enrolled users
 
 	for (const auto& fileName : istFiles) {
 		char model1[200], model2[200];
@@ -832,7 +610,9 @@ int authenticate() {
 			std::string userSurname = baseName.substr(baseName.find('_') + 1, baseName.find_last_of('_') - baseName.find('_') - 1);
 			std::string cf = baseName.substr(baseName.find_last_of('_') + 1);
 
-			std::string message = "User identified: welcome back " + userName + " " + userSurname + " (" + cf + ")";
+            std::ostringstream oss;
+            oss << "User identified: welcome back " << userName << " " << userSurname << " (" << cf << ")\nMatching score: " << r0;
+            std::string message = oss.str();
 			MessageBoxA(NULL, message.c_str(), "Result", MB_ICONINFORMATION | MB_OK);
 
 			DeleteFileA(acquiredModel);
@@ -847,8 +627,50 @@ int authenticate() {
 }
 
 
+int extractMinutiaeTXT() {
+	char acquiredFile[] = "acquiredFingerprint.tif";
+	char acquiredModel[] = "acquiredModel.ist";
+	int err;
+
+	err = CreateModel(acquiredFile, acquiredModel);
+	if (err) return err;
+
+	// Minutiae extraction
+	int nMinutiae = 0;
+	err = FxISO_SM_GetNumMinutiae(&nMinutiae);
+	if (err || nMinutiae == 0) {
+		MessageBoxA(NULL, "No minutiae detected in the fingerprint.", "Minutiae Info", MB_ICONERROR | MB_OK);
+		return -100;
+	}
+	else {
+		std::ofstream outFile("minutiae_info.txt");
+		if (!outFile) {
+			MessageBoxA(NULL, "Failed to create minutiae info file.", "Error", MB_ICONERROR | MB_OK);
+			return -1;
+		}
+
+		outFile << "Number of minutiae: " << nMinutiae << "\n\n";
+
+		for (int i = 0; i < nMinutiae; ++i) {
+			int x, y, angle, quality;
+			err = FxISO_SM_GetMinutia(i, &x, &y, &angle, &quality);
+			if (err) continue; 
+
+			outFile << "Minutia " << (i + 1) << ":\n";
+			outFile << "  Position: (" << x << ", " << y << ")\n";
+			outFile << "  Angle: " << angle << "°\n";
+			outFile << "  Quality: " << quality << "/100\n\n";
+		}
+
+		outFile.close();
+
+		MessageBoxA(NULL, "Minutiae details saved to 'minutiae_info.txt'.", "Minutiae Info", MB_OK);
+		return 0;
+	}
+}
 
 
+// Convert SDK error code to text
 const char* convertErrorToText(int err) {
 	switch (err) {
 		case 1:

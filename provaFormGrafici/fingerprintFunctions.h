@@ -24,3 +24,4 @@ int editModel(const char* cf);
 
 const char* convertErrorToText(int err);
 
+int extractMinutiaeTXT();
