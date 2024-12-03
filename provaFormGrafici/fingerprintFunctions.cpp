@@ -587,13 +587,37 @@ int authenticate() {
 		break;
 	}
 
+
+	// PAD score
+
+	int pad;
+	err = FxISO_Fing_GetPAD(&pad);
+	if (err) return err;
+
+	std::string Msg = "PAD Score: ";
+	std::stringstream ss;
+	ss << Msg << pad;
+
+	if (pad > 50) {
+		ss << "\nInvalid fingerprint detected (high PAD score)";
+		MessageBoxA(NULL, ss.str().c_str(), "PAD Score", MB_ICONERROR | MB_OK);
+		return -50;
+	}
+	else {
+		ss << "\nValid fingerprint detected (low PAD score). Please continue";
+		MessageBoxA(NULL, ss.str().c_str(), "PAD Score", MB_OK);
+	}
+
+	// Save acquired fingerprint to file
 	err = FxISO_Mem_SaveBufferToFile(acquiredFile, &gImage); //TOGLIERE PER NON SALVARE L'IMPRONTA IN LOCALE
 	if (err) return err;
 
 	err = CreateModel(acquiredFile, acquiredModel);
 	if (err) return err;
 
+	
 
+	
 	// Match fingerprint with enrolled users
 
 	for (const auto& fileName : istFiles) {
@@ -673,6 +697,8 @@ int extractMinutiaeTXT() {
 // Convert SDK error code to text
 const char* convertErrorToText(int err) {
 	switch (err) {
+		case -50:
+			return "Invalid fingerprint detected (high PAD score)";
 		case 1:
 			return "Insufficient memory";
 		case 3:

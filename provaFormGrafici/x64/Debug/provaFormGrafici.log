@@ -1,5 +1,4 @@
-﻿  Home.cpp
-  fingerprintFunctions.cpp
+﻿  fingerprintFunctions.cpp
 C:\Users\smbsv\Desktop\Work\provaFormGrafici\fingerprintFunctions.cpp(91,10): warning C4244: 'return': conversione da 'int' a 'float'. Possibile perdita di dati.
 C:\Users\smbsv\Desktop\Work\provaFormGrafici\fingerprintFunctions.cpp(119,6): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
 C:\Users\smbsv\Desktop\Work\provaFormGrafici\fingerprintFunctions.cpp(264,3): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
@@ -19,9 +18,6 @@ C:\Users\smbsv\Desktop\Work\provaFormGrafici\fingerprintFunctions.cpp(539,5): wa
 C:\Users\smbsv\Desktop\Work\provaFormGrafici\fingerprintFunctions.cpp(542,5): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
 C:\Users\smbsv\Desktop\Work\provaFormGrafici\fingerprintFunctions.cpp(545,5): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
 C:\Users\smbsv\Desktop\Work\provaFormGrafici\fingerprintFunctions.cpp(499,8): warning C4101: 'buffer': variabile locale senza riferimenti
-  login.cpp
-  signup.cpp
-  Generazione del codice in corso...
-C:\Users\smbsv\Desktop\Work\provaFormGrafici\fingerprintFunctions.cpp(751,1): warning C4715: 'convertErrorToText': non tutti i percorsi di controllo restituiscono un valore
+C:\Users\smbsv\Desktop\Work\provaFormGrafici\fingerprintFunctions.cpp(777,1): warning C4715: 'convertErrorToText': non tutti i percorsi di controllo restituiscono un valore
   about.obj : rilevato modulo MSIL; il collegamento incrementale è disabilitato per MSIL; verrà eseguito il collegamento completo
   provaFormGrafici.vcxproj -> C:\Users\smbsv\Desktop\Work\x64\Debug\provaFormGrafici.exe

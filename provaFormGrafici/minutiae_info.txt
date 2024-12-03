@@ -1,322 +1,352 @@
-Number of minutiae: 64
+Number of minutiae: 70
 
 Minutia 1:
-  Position: (287, 160)
-  Angle: 135°
+  Position: (346, 130)
+  Angle: 317°
   Quality: 96/100
 
 Minutia 2:
-  Position: (290, 147)
-  Angle: 315°
-  Quality: 96/100
-
-Minutia 3:
-  Position: (155, 142)
-  Angle: 21°
+  Position: (227, 86)
+  Angle: 33°
   Quality: 95/100
 
+Minutia 3:
+  Position: (183, 165)
+  Angle: 248°
+  Quality: 94/100
+
 Minutia 4:
-  Position: (263, 185)
-  Angle: 315°
+  Position: (174, 247)
+  Angle: 259°
   Quality: 94/100
 
 Minutia 5:
-  Position: (264, 115)
-  Angle: 156°
-  Quality: 90/100
+  Position: (310, 384)
+  Angle: 150°
+  Quality: 93/100
 
 Minutia 6:
-  Position: (266, 112)
-  Angle: 149°
-  Quality: 90/100
+  Position: (217, 55)
+  Angle: 214°
+  Quality: 92/100
 
 Minutia 7:
-  Position: (250, 209)
-  Angle: 314°
-  Quality: 89/100
+  Position: (175, 300)
+  Angle: 274°
+  Quality: 92/100
 
 Minutia 8:
-  Position: (156, 204)
-  Angle: 235°
-  Quality: 87/100
+  Position: (332, 406)
+  Angle: 159°
+  Quality: 91/100
 
 Minutia 9:
-  Position: (160, 214)
-  Angle: 47°
-  Quality: 87/100
+  Position: (235, 141)
+  Angle: 236°
+  Quality: 91/100
 
 Minutia 10:
-  Position: (283, 240)
-  Angle: 304°
-  Quality: 86/100
+  Position: (330, 149)
+  Angle: 305°
+  Quality: 90/100
 
 Minutia 11:
-  Position: (163, 241)
-  Angle: 251°
-  Quality: 83/100
+  Position: (195, 277)
+  Angle: 270°
+  Quality: 89/100
 
 Minutia 12:
-  Position: (275, 412)
-  Angle: 175°
-  Quality: 80/100
+  Position: (342, 197)
+  Angle: 292°
+  Quality: 89/100
 
 Minutia 13:
-  Position: (207, 206)
-  Angle: 164°
-  Quality: 80/100
+  Position: (237, 149)
+  Angle: 52°
+  Quality: 89/100
 
 Minutia 14:
-  Position: (180, 285)
-  Angle: 281°
-  Quality: 80/100
+  Position: (281, 384)
+  Angle: 149°
+  Quality: 88/100
 
 Minutia 15:
-  Position: (215, 470)
-  Angle: 348°
-  Quality: 78/100
+  Position: (285, 139)
+  Angle: 174°
+  Quality: 87/100
 
 Minutia 16:
-  Position: (185, 220)
-  Angle: 220°
-  Quality: 78/100
+  Position: (259, 149)
+  Angle: 223°
+  Quality: 87/100
 
 Minutia 17:
-  Position: (274, 399)
-  Angle: 3°
-  Quality: 78/100
+  Position: (277, 392)
+  Angle: 157°
+  Quality: 87/100
 
 Minutia 18:
-  Position: (140, 250)
-  Angle: 78°
-  Quality: 78/100
+  Position: (362, 254)
+  Angle: 272°
+  Quality: 87/100
 
 Minutia 19:
-  Position: (236, 450)
-  Angle: 168°
-  Quality: 78/100
+  Position: (331, 314)
+  Angle: 340°
+  Quality: 86/100
 
 Minutia 20:
-  Position: (283, 315)
-  Angle: 281°
-  Quality: 78/100
+  Position: (295, 361)
+  Angle: 135°
+  Quality: 85/100
 
 Minutia 21:
-  Position: (278, 266)
-  Angle: 285°
-  Quality: 77/100
+  Position: (271, 382)
+  Angle: 333°
+  Quality: 85/100
 
 Minutia 22:
-  Position: (320, 365)
-  Angle: 142°
-  Quality: 76/100
+  Position: (207, 52)
+  Angle: 32°
+  Quality: 85/100
 
 Minutia 23:
-  Position: (325, 385)
-  Angle: 163°
-  Quality: 76/100
+  Position: (192, 337)
+  Angle: 126°
+  Quality: 85/100
 
 Minutia 24:
-  Position: (169, 477)
-  Angle: 337°
-  Quality: 75/100
+  Position: (332, 203)
+  Angle: 281°
+  Quality: 85/100
 
 Minutia 25:
-  Position: (255, 475)
-  Angle: 174°
-  Quality: 75/100
+  Position: (280, 357)
+  Angle: 132°
+  Quality: 85/100
 
 Minutia 26:
-  Position: (272, 319)
-  Angle: 265°
-  Quality: 75/100
+  Position: (324, 165)
+  Angle: 128°
+  Quality: 85/100
 
 Minutia 27:
-  Position: (209, 356)
-  Angle: 304°
-  Quality: 75/100
+  Position: (274, 376)
+  Angle: 145°
+  Quality: 84/100
 
 Minutia 28:
-  Position: (211, 217)
-  Angle: 164°
-  Quality: 74/100
+  Position: (257, 409)
+  Angle: 167°
+  Quality: 84/100
 
 Minutia 29:
-  Position: (255, 251)
-  Angle: 287°
-  Quality: 73/100
+  Position: (243, 428)
+  Angle: 169°
+  Quality: 83/100
 
 Minutia 30:
-  Position: (214, 305)
+  Position: (349, 247)
+  Angle: 260°
+  Quality: 83/100
+
+Minutia 31:
+  Position: (235, 440)
+  Angle: 169°
+  Quality: 82/100
+
+Minutia 32:
+  Position: (252, 373)
+  Angle: 141°
+  Quality: 82/100
+
+Minutia 33:
+  Position: (236, 381)
+  Angle: 150°
+  Quality: 81/100
+
+Minutia 34:
+  Position: (236, 349)
+  Angle: 120°
+  Quality: 80/100
+
+Minutia 35:
+  Position: (207, 431)
+  Angle: 349°
+  Quality: 80/100
+
+Minutia 36:
+  Position: (220, 441)
+  Angle: 169°
+  Quality: 79/100
+
+Minutia 37:
+  Position: (228, 444)
+  Angle: 349°
+  Quality: 79/100
+
+Minutia 38:
+  Position: (221, 193)
+  Angle: 79°
+  Quality: 79/100
+
+Minutia 39:
+  Position: (214, 210)
+  Angle: 267°
+  Quality: 78/100
+
+Minutia 40:
+  Position: (209, 333)
+  Angle: 124°
+  Quality: 78/100
+
+Minutia 41:
+  Position: (221, 354)
+  Angle: 134°
+  Quality: 76/100
+
+Minutia 42:
+  Position: (210, 370)
+  Angle: 146°
+  Quality: 75/100
+
+Minutia 43:
+  Position: (353, 304)
+  Angle: 1°
+  Quality: 75/100
+
+Minutia 44:
+  Position: (308, 221)
+  Angle: 113°
+  Quality: 74/100
+
+Minutia 45:
+  Position: (262, 222)
+  Angle: 284°
+  Quality: 74/100
+
+Minutia 46:
+  Position: (301, 244)
+  Angle: 314°
+  Quality: 74/100
+
+Minutia 47:
+  Position: (367, 284)
+  Angle: 243°
+  Quality: 73/100
+
+Minutia 48:
+  Position: (237, 183)
+  Angle: 259°
+  Quality: 73/100
+
+Minutia 49:
+  Position: (268, 189)
+  Angle: 266°
+  Quality: 72/100
+
+Minutia 50:
+  Position: (223, 319)
+  Angle: 101°
+  Quality: 72/100
+
+Minutia 51:
+  Position: (293, 250)
   Angle: 304°
   Quality: 72/100
 
-Minutia 31:
-  Position: (169, 471)
-  Angle: 149°
-  Quality: 71/100
-
-Minutia 32:
-  Position: (198, 450)
-  Angle: 147°
-  Quality: 70/100
-
-Minutia 33:
-  Position: (185, 233)
-  Angle: 44°
-  Quality: 70/100
-
-Minutia 34:
-  Position: (242, 234)
-  Angle: 126°
-  Quality: 69/100
-
-Minutia 35:
-  Position: (293, 346)
-  Angle: 292°
-  Quality: 69/100
-
-Minutia 36:
-  Position: (186, 247)
-  Angle: 260°
-  Quality: 69/100
-
-Minutia 37:
-  Position: (204, 338)
-  Angle: 299°
-  Quality: 69/100
-
-Minutia 38:
-  Position: (302, 361)
-  Angle: 129°
-  Quality: 68/100
-
-Minutia 39:
-  Position: (211, 318)
-  Angle: 304°
-  Quality: 67/100
-
-Minutia 40:
-  Position: (132, 266)
-  Angle: 259°
-  Quality: 66/100
-
-Minutia 41:
-  Position: (223, 291)
-  Angle: 114°
-  Quality: 65/100
-
-Minutia 42:
-  Position: (304, 382)
-  Angle: 184°
-  Quality: 65/100
-
-Minutia 43:
-  Position: (192, 224)
-  Angle: 225°
-  Quality: 65/100
-
-Minutia 44:
-  Position: (187, 458)
-  Angle: 155°
-  Quality: 65/100
-
-Minutia 45:
-  Position: (246, 380)
-  Angle: 350°
-  Quality: 64/100
-
-Minutia 46:
-  Position: (243, 380)
-  Angle: 141°
-  Quality: 64/100
-
-Minutia 47:
-  Position: (261, 315)
-  Angle: 253°
-  Quality: 63/100
-
-Minutia 48:
-  Position: (298, 363)
-  Angle: 184°
-  Quality: 63/100
-
-Minutia 49:
-  Position: (236, 375)
-  Angle: 319°
-  Quality: 63/100
-
-Minutia 50:
-  Position: (207, 426)
-  Angle: 124°
-  Quality: 62/100
-
-Minutia 51:
-  Position: (204, 228)
-  Angle: 218°
-  Quality: 62/100
-
 Minutia 52:
-  Position: (275, 347)
-  Angle: 249°
-  Quality: 61/100
+  Position: (290, 196)
+  Angle: 285°
+  Quality: 69/100
 
 Minutia 53:
-  Position: (236, 353)
-  Angle: 329°
-  Quality: 58/100
+  Position: (317, 295)
+  Angle: 343°
+  Quality: 69/100
 
 Minutia 54:
-  Position: (165, 454)
-  Angle: 145°
-  Quality: 58/100
+  Position: (260, 301)
+  Angle: 292°
+  Quality: 68/100
 
 Minutia 55:
-  Position: (268, 363)
-  Angle: 23°
-  Quality: 58/100
+  Position: (322, 237)
+  Angle: 121°
+  Quality: 67/100
 
 Minutia 56:
-  Position: (154, 289)
-  Angle: 275°
-  Quality: 58/100
+  Position: (316, 232)
+  Angle: 127°
+  Quality: 67/100
 
 Minutia 57:
-  Position: (168, 443)
-  Angle: 138°
-  Quality: 56/100
+  Position: (318, 284)
+  Angle: 346°
+  Quality: 66/100
 
 Minutia 58:
-  Position: (164, 449)
-  Angle: 319°
-  Quality: 56/100
+  Position: (287, 166)
+  Angle: 205°
+  Quality: 65/100
 
 Minutia 59:
-  Position: (286, 366)
-  Angle: 51°
-  Quality: 55/100
+  Position: (287, 273)
+  Angle: 303°
+  Quality: 65/100
 
 Minutia 60:
-  Position: (190, 419)
-  Angle: 124°
-  Quality: 54/100
+  Position: (235, 302)
+  Angle: 281°
+  Quality: 64/100
 
 Minutia 61:
-  Position: (182, 378)
-  Angle: 290°
-  Quality: 54/100
+  Position: (291, 286)
+  Angle: 300°
+  Quality: 63/100
 
 Minutia 62:
-  Position: (208, 262)
-  Angle: 281°
-  Quality: 53/100
+  Position: (231, 235)
+  Angle: 278°
+  Quality: 62/100
 
 Minutia 63:
-  Position: (170, 321)
-  Angle: 290°
-  Quality: 53/100
+  Position: (321, 254)
+  Angle: 131°
+  Quality: 62/100
 
 Minutia 64:
-  Position: (254, 322)
-  Angle: 193°
-  Quality: 52/100
+  Position: (324, 246)
+  Angle: 111°
+  Quality: 62/100
+
+Minutia 65:
+  Position: (332, 256)
+  Angle: 100°
+  Quality: 62/100
+
+Minutia 66:
+  Position: (334, 258)
+  Angle: 171°
+  Quality: 62/100
+
+Minutia 67:
+  Position: (329, 263)
+  Angle: 33°
+  Quality: 60/100
+
+Minutia 68:
+  Position: (286, 179)
+  Angle: 255°
+  Quality: 59/100
+
+Minutia 69:
+  Position: (289, 174)
+  Angle: 266°
+  Quality: 58/100
+
+Minutia 70:
+  Position: (294, 180)
+  Angle: 289°
+  Quality: 56/100
 
