@@ -45,6 +45,8 @@ The HiScan SDK is **not publicly available**. To obtain access, you must contact
 The libraries work exclusively with UMPI scanners and the fingerprint images captured by them.
 It is forbidden to: reverse engineer, decompile, translate, disassemble or otherwise attempt to extract part or all of the source code of the libraries.**
 
+**READ "FxISO - Legal Notes.txt" file for more informations.**
+
 ## License
 
 This software includes references to the HiScan SDK, which is proprietary software owned by UMPI. Access to the SDK must be requested directly from UMPI. The use of this application is restricted to those who have obtained proper licensing for the SDK.
