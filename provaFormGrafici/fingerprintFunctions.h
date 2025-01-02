@@ -1,6 +1,7 @@
 
 #pragma once
-#include <string.h>
+#include <string>
+#include <vector>
 
 int CaptureFinger(char* filename);
 
@@ -25,3 +26,21 @@ int editModel(const char* cf);
 const char* convertErrorToText(int err);
 
 int extractMinutiaeTXT();
+
+struct Minutia {
+	int x;
+	int y;
+	double angle; // in degrees
+	int quality;  // quality score
+};
+
+std::vector<Minutia> readMinutiaeFromFile(const std::string& filename);
+
+double computeScore(const std::vector<Minutia>& m1, const std::vector<Minutia>& m2, double epsilon_d, double epsilon_theta);
+double computeHoughScore(const std::vector<Minutia>& m1, const std::vector<Minutia>& m2, double epsilon_d, double epsilon_theta);
+
+double testNewMatch();
+
+
+
+

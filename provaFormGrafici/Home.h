@@ -45,6 +45,8 @@ namespace provaFormGrafici {
 	private: System::Windows::Forms::PictureBox^ pictureBox1;
 	private: System::Windows::Forms::Button^ editButton;
 
+	private: System::Windows::Forms::Button^ button2;
+
 
 
 	private:
@@ -67,6 +69,7 @@ namespace provaFormGrafici {
 			this->label1 = (gcnew System::Windows::Forms::Label());
 			this->pictureBox1 = (gcnew System::Windows::Forms::PictureBox());
 			this->editButton = (gcnew System::Windows::Forms::Button());
+			this->button2 = (gcnew System::Windows::Forms::Button());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->BeginInit();
 			this->SuspendLayout();
 			// 
@@ -141,13 +144,26 @@ namespace provaFormGrafici {
 			this->editButton->UseVisualStyleBackColor = true;
 			this->editButton->Click += gcnew System::EventHandler(this, &Home::editButton_Click);
 			// 
+			// button2
+			// 
+			this->button2->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
+			this->button2->Location = System::Drawing::Point(355, 518);
+			this->button2->Name = L"button2";
+			this->button2->Size = System::Drawing::Size(138, 53);
+			this->button2->TabIndex = 7;
+			this->button2->Text = L"TestMatch";
+			this->button2->UseVisualStyleBackColor = true;
+			this->button2->Click += gcnew System::EventHandler(this, &Home::button2_Click);
+			// 
 			// Home
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(8, 16);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->BackgroundImage = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"$this.BackgroundImage")));
 			this->BackgroundImageLayout = System::Windows::Forms::ImageLayout::Stretch;
-			this->ClientSize = System::Drawing::Size(840, 573);
+			this->ClientSize = System::Drawing::Size(840, 608);
+			this->Controls->Add(this->button2);
 			this->Controls->Add(this->editButton);
 			this->Controls->Add(this->pictureBox1);
 			this->Controls->Add(this->label1);
@@ -158,6 +174,7 @@ namespace provaFormGrafici {
 			this->Name = L"Home";
 			this->StartPosition = System::Windows::Forms::FormStartPosition::CenterScreen;
 			this->Text = L"Fingerprint SDK Demo - Home";
+			this->Load += gcnew System::EventHandler(this, &Home::Home_Load);
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->EndInit();
 			this->ResumeLayout(false);
 			this->PerformLayout();
@@ -182,5 +199,12 @@ namespace provaFormGrafici {
 		edit^ editForm = gcnew edit();
 		editForm->ShowDialog();
 	}
+private: System::Void Home_Load(System::Object^ sender, System::EventArgs^ e) {
+}
+private: System::Void button2_Click(System::Object^ sender, System::EventArgs^ e) {
+
+	double sim = testNewMatch();
+
+}
 };
 }

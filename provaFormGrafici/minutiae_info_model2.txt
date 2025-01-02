@@ -1,0 +1,282 @@
+Number of minutiae: 56
+
+Minutia 1:
+  Position: (248, 47)
+  Angle: 349°
+  Quality: 100/100
+
+Minutia 2:
+  Position: (147, 127)
+  Angle: 236°
+  Quality: 100/100
+
+Minutia 3:
+  Position: (263, 35)
+  Angle: 165°
+  Quality: 100/100
+
+Minutia 4:
+  Position: (254, 27)
+  Angle: 347°
+  Quality: 100/100
+
+Minutia 5:
+  Position: (248, 91)
+  Angle: 172°
+  Quality: 100/100
+
+Minutia 6:
+  Position: (261, 98)
+  Angle: 336°
+  Quality: 100/100
+
+Minutia 7:
+  Position: (229, 101)
+  Angle: 190°
+  Quality: 100/100
+
+Minutia 8:
+  Position: (157, 260)
+  Angle: 287°
+  Quality: 100/100
+
+Minutia 9:
+  Position: (314, 112)
+  Angle: 311°
+  Quality: 100/100
+
+Minutia 10:
+  Position: (154, 200)
+  Angle: 269°
+  Quality: 100/100
+
+Minutia 11:
+  Position: (229, 315)
+  Angle: 222°
+  Quality: 100/100
+
+Minutia 12:
+  Position: (229, 327)
+  Angle: 45°
+  Quality: 100/100
+
+Minutia 13:
+  Position: (286, 338)
+  Angle: 37°
+  Quality: 100/100
+
+Minutia 14:
+  Position: (250, 355)
+  Angle: 34°
+  Quality: 100/100
+
+Minutia 15:
+  Position: (185, 258)
+  Angle: 319°
+  Quality: 100/100
+
+Minutia 16:
+  Position: (164, 243)
+  Angle: 284°
+  Quality: 100/100
+
+Minutia 17:
+  Position: (271, 320)
+  Angle: 56°
+  Quality: 100/100
+
+Minutia 18:
+  Position: (292, 319)
+  Angle: 56°
+  Quality: 100/100
+
+Minutia 19:
+  Position: (296, 324)
+  Angle: 45°
+  Quality: 100/100
+
+Minutia 20:
+  Position: (199, 286)
+  Angle: 165°
+  Quality: 100/100
+
+Minutia 21:
+  Position: (227, 282)
+  Angle: 215°
+  Quality: 100/100
+
+Minutia 22:
+  Position: (188, 155)
+  Angle: 243°
+  Quality: 99/100
+
+Minutia 23:
+  Position: (322, 348)
+  Angle: 32°
+  Quality: 99/100
+
+Minutia 24:
+  Position: (292, 267)
+  Angle: 248°
+  Quality: 98/100
+
+Minutia 25:
+  Position: (261, 259)
+  Angle: 236°
+  Quality: 94/100
+
+Minutia 26:
+  Position: (192, 143)
+  Angle: 46°
+  Quality: 94/100
+
+Minutia 27:
+  Position: (221, 264)
+  Angle: 201°
+  Quality: 93/100
+
+Minutia 28:
+  Position: (228, 264)
+  Angle: 217°
+  Quality: 91/100
+
+Minutia 29:
+  Position: (346, 240)
+  Angle: 274°
+  Quality: 88/100
+
+Minutia 30:
+  Position: (322, 324)
+  Angle: 46°
+  Quality: 87/100
+
+Minutia 31:
+  Position: (279, 182)
+  Angle: 267°
+  Quality: 86/100
+
+Minutia 32:
+  Position: (249, 412)
+  Angle: 20°
+  Quality: 86/100
+
+Minutia 33:
+  Position: (260, 174)
+  Angle: 107°
+  Quality: 86/100
+
+Minutia 34:
+  Position: (314, 239)
+  Angle: 259°
+  Quality: 85/100
+
+Minutia 35:
+  Position: (192, 223)
+  Angle: 305°
+  Quality: 84/100
+
+Minutia 36:
+  Position: (315, 176)
+  Angle: 281°
+  Quality: 84/100
+
+Minutia 37:
+  Position: (300, 152)
+  Angle: 291°
+  Quality: 81/100
+
+Minutia 38:
+  Position: (261, 182)
+  Angle: 263°
+  Quality: 80/100
+
+Minutia 39:
+  Position: (333, 364)
+  Angle: 205°
+  Quality: 80/100
+
+Minutia 40:
+  Position: (288, 199)
+  Angle: 263°
+  Quality: 79/100
+
+Minutia 41:
+  Position: (307, 378)
+  Angle: 219°
+  Quality: 79/100
+
+Minutia 42:
+  Position: (232, 227)
+  Angle: 210°
+  Quality: 75/100
+
+Minutia 43:
+  Position: (260, 217)
+  Angle: 236°
+  Quality: 75/100
+
+Minutia 44:
+  Position: (315, 371)
+  Angle: 24°
+  Quality: 74/100
+
+Minutia 45:
+  Position: (206, 210)
+  Angle: 318°
+  Quality: 73/100
+
+Minutia 46:
+  Position: (224, 167)
+  Angle: 250°
+  Quality: 73/100
+
+Minutia 47:
+  Position: (232, 219)
+  Angle: 198°
+  Quality: 72/100
+
+Minutia 48:
+  Position: (281, 220)
+  Angle: 249°
+  Quality: 66/100
+
+Minutia 49:
+  Position: (303, 207)
+  Angle: 266°
+  Quality: 66/100
+
+Minutia 50:
+  Position: (232, 167)
+  Angle: 284°
+  Quality: 66/100
+
+Minutia 51:
+  Position: (232, 160)
+  Angle: 312°
+  Quality: 66/100
+
+Minutia 52:
+  Position: (281, 395)
+  Angle: 45°
+  Quality: 66/100
+
+Minutia 53:
+  Position: (333, 186)
+  Angle: 285°
+  Quality: 66/100
+
+Minutia 54:
+  Position: (214, 199)
+  Angle: 337°
+  Quality: 65/100
+
+Minutia 55:
+  Position: (331, 195)
+  Angle: 101°
+  Quality: 62/100
+
+Minutia 56:
+  Position: (319, 228)
+  Angle: 90°
+  Quality: 62/100
+

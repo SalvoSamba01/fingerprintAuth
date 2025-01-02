@@ -1,4 +1,4 @@
-
+﻿
 #include <string.h>
 #include "fxISOdll.h"
 #include "fxISOenrdlg.h" 
@@ -15,8 +15,13 @@
 #include <vector> 
 #include <regex>
 #include <sstream>
-
-
+#include <cmath>
+#include <algorithm>
+#include <limits.h>
+#include <climits>
+#include <map>
+#include <tuple>
+#include <unordered_map>
 
 namespace fs = std::filesystem;
 
@@ -86,7 +91,7 @@ float TestMatch(char* first, char* second)
 	if (err)
 		return 0.0;
 
-	err = FxISO_Eng_Matching(0.6f, &sim);
+	err = FxISO_Eng_Matching(0.62f, &sim);
 	if (err)
 		return err;
 
@@ -95,7 +100,7 @@ float TestMatch(char* first, char* second)
 
 
 
-#define SimilarityThreshold 0.6
+#define SimilarityThreshold 0.62
 
 
 int editModel(const char* cf) {
@@ -107,8 +112,8 @@ int editModel(const char* cf) {
 
 	//find model
 	try {
-		std::string patternStr = R"(([^_]+)_([^_]+)_)";
-		patternStr += std::string(cf) + R"(\.ist$)";
+		std::string patternStr = R"(([^_]+)_([^_]+)_)";    
+		patternStr += std::string(cf) + R"(\.ist$)";		//regex pattern "[something]_[something]_cf.ist"
 		std::regex filePattern(patternStr);
 
 		for (const auto& entry : fs::directory_iterator("./")) {
@@ -682,7 +687,7 @@ int extractMinutiaeTXT() {
 
 			outFile << "Minutia " << (i + 1) << ":\n";
 			outFile << "  Position: (" << x << ", " << y << ")\n";
-			outFile << "  Angle: " << angle << "�\n";
+			outFile << "  Angle: " << angle << "°\n";
 			outFile << "  Quality: " << quality << "/100\n\n";
 		}
 
@@ -773,5 +778,317 @@ const char* convertErrorToText(int err) {
 			return "File Permission Error";
 		case 127:
 			return "Filesystem Error";
+		default:
+			return "Unknown error";
 		}
+}
+
+
+// Funzione per leggere le minuzie da un file
+std::vector<Minutia> readMinutiaeFromFile(const std::string& filename) {
+	std::vector<Minutia> minutiae;
+	std::ifstream file(filename);
+	if (!file.is_open()) {
+		std::cerr << "Errore nell'apertura del file: " << filename << std::endl;
+		return minutiae;
+	}
+
+	std::string line;
+	while (std::getline(file, line)) {
+		if (line.find("Minutia") != std::string::npos) {
+			Minutia m;
+			std::getline(file, line); // Leggi la posizione
+			sscanf(line.c_str(), " Position: (%d, %d)", &m.x, &m.y);
+			std::getline(file, line); // Leggi l'angolo
+			sscanf(line.c_str(), " Angle: %lf°", &m.angle);
+			std::getline(file, line); // Leggi la qualità
+			sscanf(line.c_str(), " Quality: %d/100", &m.quality);
+			minutiae.push_back(m);
+		}
+	}
+
+	file.close();
+	return minutiae;
+}
+
+
+double computeScore(const std::vector<Minutia>& m1, const std::vector<Minutia>& m2,double epsilon_d, double epsilon_theta) {
+	int maxMatches = 0;
+
+	// Iterare su tutte le coppie possibili
+	for (const auto& m1_i : m1) {
+		for (const auto& m2_j : m2) {
+			// Calcolare traslazione e rotazione
+			double T_x = m1_i.x - m2_j.x;
+			double T_y = m1_i.y - m2_j.y;
+			double R = m1_i.angle - m2_j.angle;
+			R = min(R, 360.0 - R);
+
+			// Applicare la trasformazione a m2
+			std::vector<Minutia> transformedM2;
+			for (const auto& m2_k : m2) {
+				Minutia transformed;
+				transformed.x = cos(R * 3.14 / 180.0) * m2_k.x - sin(R * 3.14 / 180.0) * m2_k.y + T_x;
+				transformed.y = sin(R * 3.14 / 180.0) * m2_k.x + cos(R * 3.14 / 180.0) * m2_k.y + T_y;
+				transformed.angle = m2_k.angle + R;
+				transformedM2.push_back(transformed);
+			}
+
+			// Contare le corrispondenze
+			int matches = 0;
+			for (const auto& m1_k : m1) {
+				for (const auto& m2_k : transformedM2) {
+					double dist = sqrt(pow(m1_k.x - m2_k.x, 2) + pow(m1_k.y - m2_k.y, 2));
+					double angleDiff = fabs(m1_k.angle - m2_k.angle);
+					if (dist < epsilon_d && angleDiff < epsilon_theta) {
+						matches++;
+						break; // Una minuzia di m2 può corrispondere a una sola minuzia di m1
+					}
+				}
+			}
+
+			// Aggiornare il massimo numero di corrispondenze
+			maxMatches = max(maxMatches, matches);
+		}
+	}
+
+	// Calcolare lo score normalizzato
+	double score = (2.0 * maxMatches) / (m1.size() + m2.size());
+	return score;
+}
+
+/*
+double computeHoughScore(const std::vector<Minutia>& m1, const std::vector<Minutia>& m2, double epsilon_d, double epsilon_theta) {
+	double score;
+
+	int*** array = new int** [360];
+	for (int i = 0; i < 360; ++i) {
+		array[i] = new int* [500];
+		for (int j = 0; j < 500; ++j) {
+			array[i][j] = new int[500]();
+		}
+	}
+
+	for (const auto& m1_i : m1) {
+		for (const auto& m2_j : m2) {
+			double R = m1_i.angle - m2_j.angle;
+			double T_x = m1_i.x - m2_j.x * cos(R)-m2_j.y*sin(R);
+			double T_y = m1_i.y + m2_j.x * sin(R) - m2_j.y * cos(R);
+			array[(int)R][(int)T_x][(int)T_y]++;
+		}
+	}
+
+	// ritorno il picco di Array, salvandone i 3 valori in 3 variabili R X e Y
+	
+	int max = 0;
+	int R = 0, X = 0, Y = 0;
+	for (int i = 0; i < 360; ++i) {
+		for (int j = 0; j < 500; ++j) {
+			for (int k = 0; k < 500; ++k) {
+				if (array[i][j][k] > max) {
+					max = array[i][j][k];
+					R = i;
+					X = j;
+					Y = k;
+				}
+			}
+		}
+	}
+
+	//Trasformo le minuzie di m2 con i valori di R X e Y trovati
+	std::vector<Minutia> transformedM2;
+	for (const auto& m2_k : m2) {
+		Minutia transformed;
+		transformed.x = cos(R) * m2_k.x - sin(R) * m2_k.y + X;
+		transformed.y = sin(R) * m2_k.x + cos(R) * m2_k.y + Y;
+		transformed.angle = m2_k.angle + R;
+		transformedM2.push_back(transformed);
+	}
+
+	// Contare le corrispondenze
+	int matches = 0;
+	for (const auto& m1_k : m1) {
+		for (const auto& m2_k : transformedM2) {
+			double dist = sqrt(pow(m1_k.x - m2_k.x, 2) + pow(m1_k.y - m2_k.y, 2));
+			double angleDiff = fabs(m1_k.angle - m2_k.angle);
+			if (dist < epsilon_d && angleDiff < epsilon_theta) {
+				matches++;
+				break; // Una minuzia di m2 può corrispondere a una sola minuzia di m1
+			}
+		}
+	}
+
+	// Calcolare lo score normalizzato
+	score = (2.0 * matches) / (m1.size() + m2.size());
+	
+	return score;
+
+}
+*/
+
+struct Key {
+	int R, X, Y;
+
+	Key(int r, int x, int y) : R(r), X(x), Y(y) {}
+
+	bool operator==(const Key& other) const {
+		return R == other.R && X == other.X && Y == other.Y;
+	}
+};
+
+struct KeyHash {
+	std::size_t operator()(const Key& k) const {
+		return std::hash<int>()(k.R) ^ std::hash<int>()(k.X) ^ std::hash<int>()(k.Y);
+	}
+};
+
+typedef std::unordered_map<Key, int, KeyHash> HoughMap;
+
+
+double computeHoughScore(const std::vector<Minutia>& m1, const std::vector<Minutia>& m2, double epsilon_d, double epsilon_theta) {
+	double score;
+
+	HoughMap array;  
+
+	for (const auto& m1_i : m1) {
+		for (const auto& m2_j : m2) {
+
+			double R = m1_i.angle - m2_j.angle;
+			R = min(R, 360.0 - R);
+
+			double T_x = m1_i.x - m2_j.x;
+			double T_y = m1_i.y - m2_j.y;
+
+			Key key((int)R, (int)T_x, (int)T_y);
+			array[key]++;
+		}
+	}
+
+	int max = 0;
+	Key best_key(0, 0, 0);
+	for (const auto& [key, count] : array) {
+		if (count > max) {
+			max = count;
+			best_key = key;
+		}
+	}
+
+	int X = best_key.X;
+	int Y = best_key.Y;
+	int R = best_key.R;
+
+
+	//Trasformo le minuzie di m2 con i valori di R X e Y trovati
+	std::vector<Minutia> transformedM2;
+	for (const auto& m2_k : m2) {
+		Minutia transformed;
+		transformed.x = cos(R * 3.14 / 180.0) * m2_k.x - sin(R * 3.14 / 180.0) * m2_k.y + X;
+		transformed.y = sin(R * 3.14 / 180.0) * m2_k.x + cos(R * 3.14 / 180.0) * m2_k.y + Y;
+		transformed.angle = m2_k.angle + R;
+		transformedM2.push_back(transformed);
+	}
+
+	// Contare le corrispondenze
+	int matches = 0;
+	for (const auto& m1_k : m1) {
+		for (const auto& m2_k : transformedM2) {
+			double dist = sqrt(pow(m1_k.x - m2_k.x, 2) + pow(m1_k.y - m2_k.y, 2));
+			double angleDiff = fabs(m1_k.angle - m2_k.angle);
+			if (dist < epsilon_d && angleDiff < epsilon_theta) {
+				matches++;
+				break; // Una minuzia di m2 può corrispondere a una sola minuzia di m1
+			}
+		}
+	}
+
+
+	// Calcolare lo score normalizzato
+	score = (2.0 * matches) / (m1.size() + m2.size());
+
+	return score;
+}
+
+
+double testNewMatch() {
+	char fileMinutiae[50] = "minutiae_info.txt";
+	int err;
+	char acquiredFile[] = "acquiredFingerprint.tif";
+	char acquiredModel[] = "acquiredModel.ist";
+
+	err = CreateModel(acquiredFile, acquiredModel);
+	if (err) return err;
+
+	// Estrai le minuzie dal modello 1
+	extractMinutiaeTXT();
+
+	std::vector<Minutia> m1 = readMinutiaeFromFile(fileMinutiae);
+
+	// Estrai le minuzie dal modello MM salvato in memoria nel percorso: "C:\Users\smbsv\Desktop\fingerprintAuth\provaFormGrafici\user3_user3_cf3.ist"
+
+	char multiModel[] = "user3_user3_cf3.ist";
+	err = FxISO_Mem_LoadBufferFromFile(multiModel, &gModel);
+	err = FxISO_MM_LoadFromMemory(&gModel, ISOFORMAT_STANDARD);
+	if (err)
+		return 0.0;
+
+	err = FxISO_MM_Extract_SM(1, 1); //estraggo un campione dell'indice destro del modello MM
+	if (err)
+		return err;
+
+
+	int nMinutiae = 0;
+	err = FxISO_SM_GetNumMinutiae(&nMinutiae);
+	if (err || nMinutiae == 0) {
+		MessageBoxA(NULL, "No minutiae detected in the fingerprint.", "Minutiae Info", MB_ICONERROR | MB_OK);
+		return -100;
+	}
+	else {
+		std::ofstream outFile("minutiae_info_model2.txt");
+		if (!outFile) {
+			MessageBoxA(NULL, "Failed to create minutiae info file.", "Error", MB_ICONERROR | MB_OK);
+			return -1;
+		}
+
+		outFile << "Number of minutiae: " << nMinutiae << "\n\n";
+
+		for (int i = 0; i < nMinutiae; ++i) {
+			int x, y, angle, quality;
+			err = FxISO_SM_GetMinutia(i, &x, &y, &angle, &quality);
+			if (err) continue;
+
+			outFile << "Minutia " << (i + 1) << ":\n";
+			outFile << "  Position: (" << x << ", " << y << ")\n";
+			outFile << "  Angle: " << angle << "°\n";
+			outFile << "  Quality: " << quality << "/100\n\n";
+		}
+
+		outFile.close();
+
+		MessageBoxA(NULL, "Minutiae details saved to 'minutiae_info_model2.txt'.", "Minutiae Info", MB_OK);
+	}
+
+	std::vector<Minutia> m2 = readMinutiaeFromFile("minutiae_info_model2.txt");
+
+	double score = computeScore(m1, m2, 30, 30);
+	double houghScore = computeHoughScore(m1, m2, 30, 30);
+
+
+	char buffer[500];
+
+	// aggiugni al buffer anche i  valori dei parametri di trasformazione rigida
+
+	strcat(buffer, "Algoritmo Brute-Force \n Score: ");
+	strcat(buffer, std::to_string(score).c_str());
+
+	strcat(buffer, "\n\nAlgoritmo Hough \n Score: ");
+	strcat(buffer, std::to_string(houghScore).c_str());
+
+	float r0 = TestMatch(multiModel , acquiredModel);
+	strcat(buffer, "\n\nAlgoritmo SDK\n Score= ");
+	strcat(buffer, std::to_string(r0).c_str());
+
+
+	MessageBoxA(NULL, buffer, "Risultati del matching", MB_OK);
+
+	return score;
 }
