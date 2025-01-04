@@ -784,7 +784,6 @@ const char* convertErrorToText(int err) {
 }
 
 
-// Funzione per leggere le minuzie da un file
 std::vector<Minutia> readMinutiaeFromFile(const std::string& filename) {
 	std::vector<Minutia> minutiae;
 	std::ifstream file(filename);
@@ -797,11 +796,11 @@ std::vector<Minutia> readMinutiaeFromFile(const std::string& filename) {
 	while (std::getline(file, line)) {
 		if (line.find("Minutia") != std::string::npos) {
 			Minutia m;
-			std::getline(file, line); // Leggi la posizione
+			std::getline(file, line); // Read position
 			sscanf(line.c_str(), " Position: (%d, %d)", &m.x, &m.y);
-			std::getline(file, line); // Leggi l'angolo
+			std::getline(file, line); // Read angle
 			sscanf(line.c_str(), " Angle: %lf°", &m.angle);
-			std::getline(file, line); // Leggi la qualità
+			std::getline(file, line); // Read quality
 			sscanf(line.c_str(), " Quality: %d/100", &m.quality);
 			minutiae.push_back(m);
 		}
@@ -815,16 +814,16 @@ std::vector<Minutia> readMinutiaeFromFile(const std::string& filename) {
 double computeScore(const std::vector<Minutia>& m1, const std::vector<Minutia>& m2,double epsilon_d, double epsilon_theta) {
 	int maxMatches = 0;
 
-	// Iterare su tutte le coppie possibili
 	for (const auto& m1_i : m1) {
 		for (const auto& m2_j : m2) {
-			// Calcolare traslazione e rotazione
+
+			// Rigid transformation
 			double T_x = m1_i.x - m2_j.x;
 			double T_y = m1_i.y - m2_j.y;
 			double R = m1_i.angle - m2_j.angle;
 			R = min(R, 360.0 - R);
 
-			// Applicare la trasformazione a m2
+			// Apply rigid transformation to m2
 			std::vector<Minutia> transformedM2;
 			for (const auto& m2_k : m2) {
 				Minutia transformed;
@@ -834,7 +833,7 @@ double computeScore(const std::vector<Minutia>& m1, const std::vector<Minutia>& 
 				transformedM2.push_back(transformed);
 			}
 
-			// Contare le corrispondenze
+			// Count matches
 			int matches = 0;
 			for (const auto& m1_k : m1) {
 				for (const auto& m2_k : transformedM2) {
@@ -842,21 +841,20 @@ double computeScore(const std::vector<Minutia>& m1, const std::vector<Minutia>& 
 					double angleDiff = fabs(m1_k.angle - m2_k.angle);
 					if (dist < epsilon_d && angleDiff < epsilon_theta) {
 						matches++;
-						break; // Una minuzia di m2 può corrispondere a una sola minuzia di m1
+						break;
 					}
 				}
 			}
-
-			// Aggiornare il massimo numero di corrispondenze
 			maxMatches = max(maxMatches, matches);
 		}
 	}
 
-	// Calcolare lo score normalizzato
 	double score = (2.0 * maxMatches) / (m1.size() + m2.size());
 	return score;
 }
 
+
+// Funzione per il calcolo dello score tramite trasformazione di Hough (non usabile perchè occupa troppa memoria)
 /*
 double computeHoughScore(const std::vector<Minutia>& m1, const std::vector<Minutia>& m2, double epsilon_d, double epsilon_theta) {
 	double score;
@@ -878,7 +876,6 @@ double computeHoughScore(const std::vector<Minutia>& m1, const std::vector<Minut
 		}
 	}
 
-	// ritorno il picco di Array, salvandone i 3 valori in 3 variabili R X e Y
 	
 	int max = 0;
 	int R = 0, X = 0, Y = 0;
@@ -895,7 +892,6 @@ double computeHoughScore(const std::vector<Minutia>& m1, const std::vector<Minut
 		}
 	}
 
-	//Trasformo le minuzie di m2 con i valori di R X e Y trovati
 	std::vector<Minutia> transformedM2;
 	for (const auto& m2_k : m2) {
 		Minutia transformed;
@@ -905,7 +901,6 @@ double computeHoughScore(const std::vector<Minutia>& m1, const std::vector<Minut
 		transformedM2.push_back(transformed);
 	}
 
-	// Contare le corrispondenze
 	int matches = 0;
 	for (const auto& m1_k : m1) {
 		for (const auto& m2_k : transformedM2) {
@@ -948,8 +943,11 @@ typedef std::unordered_map<Key, int, KeyHash> HoughMap;
 double computeHoughScore(const std::vector<Minutia>& m1, const std::vector<Minutia>& m2, double epsilon_d, double epsilon_theta) {
 	double score;
 
+	// Create Hough map
+
 	HoughMap array;  
 
+	// Fill Hough map with votes
 	for (const auto& m1_i : m1) {
 		for (const auto& m2_j : m2) {
 
@@ -973,12 +971,13 @@ double computeHoughScore(const std::vector<Minutia>& m1, const std::vector<Minut
 		}
 	}
 
+	// Apply best transformation
+
 	int X = best_key.X;
 	int Y = best_key.Y;
 	int R = best_key.R;
 
 
-	//Trasformo le minuzie di m2 con i valori di R X e Y trovati
 	std::vector<Minutia> transformedM2;
 	for (const auto& m2_k : m2) {
 		Minutia transformed;
@@ -988,7 +987,8 @@ double computeHoughScore(const std::vector<Minutia>& m1, const std::vector<Minut
 		transformedM2.push_back(transformed);
 	}
 
-	// Contare le corrispondenze
+	// Count matches
+
 	int matches = 0;
 	for (const auto& m1_k : m1) {
 		for (const auto& m2_k : transformedM2) {
@@ -1001,8 +1001,6 @@ double computeHoughScore(const std::vector<Minutia>& m1, const std::vector<Minut
 		}
 	}
 
-
-	// Calcolare lo score normalizzato
 	score = (2.0 * matches) / (m1.size() + m2.size());
 
 	return score;
@@ -1018,12 +1016,10 @@ double testNewMatch() {
 	err = CreateModel(acquiredFile, acquiredModel);
 	if (err) return err;
 
-	// Estrai le minuzie dal modello 1
 	extractMinutiaeTXT();
 
 	std::vector<Minutia> m1 = readMinutiaeFromFile(fileMinutiae);
 
-	// Estrai le minuzie dal modello MM salvato in memoria nel percorso: "C:\Users\smbsv\Desktop\fingerprintAuth\provaFormGrafici\user3_user3_cf3.ist"
 
 	char multiModel[] = "user3_user3_cf3.ist";
 	err = FxISO_Mem_LoadBufferFromFile(multiModel, &gModel);
@@ -1074,8 +1070,6 @@ double testNewMatch() {
 
 
 	char buffer[500];
-
-	// aggiugni al buffer anche i  valori dei parametri di trasformazione rigida
 
 	strcat(buffer, "Algoritmo Brute-Force \n Score: ");
 	strcat(buffer, std::to_string(score).c_str());
